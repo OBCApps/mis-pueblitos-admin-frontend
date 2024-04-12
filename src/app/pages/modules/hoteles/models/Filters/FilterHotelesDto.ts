@@ -1,4 +1,10 @@
 export class FilterHotelesDto {
-    nombre: string;    
-    pagination : any;
+    nombre: string;
+    apellido : string;
+    pagination : {
+        totalRegistros : null,
+        inicio : 0
+
+    };
+    resultado : [] = []
 }
