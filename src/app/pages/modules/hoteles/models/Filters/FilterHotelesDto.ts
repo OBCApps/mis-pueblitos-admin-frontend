@@ -1,4 +1,4 @@
 export class FilterHotelesDto {
-    nombre : string
-    resultado : any
+    nombre: string;    
+    pagination : any;
 }
