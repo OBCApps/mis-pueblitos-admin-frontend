@@ -35,25 +35,35 @@
     <form class="p-2 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
         <div class="grid gap-2 mb-2 grid-cols-2 md:grid-cols-4">
             <div>
+                <label name="user" class="{{LabelInputsSearchs}}">
+                    Usuario
+                </label>
+                <select name="user" class="{{ValueInputsSearchs}}" [(ngModel)]="filterSearch.user" >
+                    <option [value]="null">Choose a country</option>
+                    <option [value]="1">Admin</option>
+                    <option [value]="2">Eugenio Lopez</option>
+                </select>
+            </div>
+            <div>
                 <label name="nombre" class="{{LabelInputsSearchs}}">
                     Nombre
                 </label>
-                <input type="text" name="nombre" class="{{ValueInputsSearchs}}"
-                    [(ngModel)]="filterSearch.nombre" required autocomplete="off" />
+                <input type="text" name="nombre" class="{{ValueInputsSearchs}}" [(ngModel)]="filterSearch.nombre"
+                    required autocomplete="off" />
             </div>
             <div>
                 <label name="nombre" class="{{LabelInputsSearchs}}">
                     Ubicación
                 </label>
-                <input type="text" name="nombre" class="{{ValueInputsSearchs}}"
-                    [(ngModel)]="filterSearch.nombre" required autocomplete="off" />
+                <input type="text" name="nombre" class="{{ValueInputsSearchs}}" [(ngModel)]="filterSearch.ubicacion"
+                    required autocomplete="off" />
             </div>
             <div>
                 <label name="nombre" class="{{LabelInputsSearchs}}">
                     Tipo Hospedaje
                 </label>
-                <input type="text" name="nombre" class="{{ValueInputsSearchs}}"
-                    [(ngModel)]="filterSearch.nombre" required autocomplete="off" />
+                <input type="text" name="nombre" class="{{ValueInputsSearchs}}" [(ngModel)]="filterSearch.tipo" required
+                    autocomplete="off" />
             </div>
         </div>
 
@@ -78,36 +88,39 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            Product name
+                            Nombre
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <div class="flex items-center">
-                                Color
-                                <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true"
+                                Tipo Hospedaje
+                                <!-- <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                                    </svg></a>
+                                    </svg>
+                                </a> -->
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <div class="flex items-center">
-                                Category
-                                <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true"
+                                Estrellas
+                                <!-- <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                                    </svg></a>
+                                    </svg>
+                                </a> -->
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <div class="flex items-center">
-                                Price
-                                <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true"
+                                Lugar
+                                <!-- <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                                    </svg></a>
+                                    </svg>
+                                </a> -->
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -116,29 +129,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of ['ITEM-A', 'ITEM-B', 'ITEM-C', 'ITEM-D', 'ITEM-E']; track $index) {
+                    @for (item of list_result; track $index) {
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{item}}
+                            {{item.nombre}}
                         </th>
                         <td class="px-6 py-4">
-                            White
+                            {{item.tipo}}
                         </td>
                         <td class="px-6 py-4">
-                            Laptop PC
+                            {{item.estrellas}}
                         </td>
                         <td class="px-6 py-4">
-                            $1999
+                            {{item.ubicacion}}
                         </td>
                         <td class="px-6 py-4 text-right flex ">
-                            <a class="font-medium text-blue-500 dark:text-blue-500 hover:underline mx-2"><svg
+                            <a (click)="coreEdit(item)" class="font-medium text-blue-500 dark:text-blue-500 hover:underline mx-2 cursor-pointer"><svg
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                 </svg>
                             </a>
-                            <a class="font-medium text-red-500 dark:text-red-500 hover:underline">
+                            <a (click)="coreDelete(item)" class="font-medium text-red-500 dark:text-red-500 hover:underline cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"

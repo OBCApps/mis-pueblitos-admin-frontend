@@ -5,6 +5,7 @@ import { HotelesService } from '../../services/HotelesService';
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
 import { BaseComponents } from '../../../../shared/global-components/BaseComponents';
+import { DtoHoteles } from '../../models/Dtos/DtoHoteles';
 
 @Component({
   selector: 'app-list-hoteles',
@@ -25,7 +26,8 @@ export class ListHotelesComponent extends BaseComponents {
   ngOnInit() {
     this.general_loads();
 
-
+    this.filterSearch = new FilterHotelesDto()
+    this.coreSearch()
   }
 
 
@@ -36,7 +38,7 @@ export class ListHotelesComponent extends BaseComponents {
   coreNew() {
     const data = {
       option: 'CREATE',
-      data: {}
+      data: new DtoHoteles()
     }
     localStorage.setItem('dtoSelected', JSON.stringify(data));
 
@@ -51,6 +53,12 @@ export class ListHotelesComponent extends BaseComponents {
 
   // --------- EDIT ELEMENT ------------- \\
   coreEdit(item: any) {
+    const data = {
+      option: 'EDIT',
+      data: item
+    }
+    localStorage.setItem('dtoSelected', JSON.stringify(data));
+
     this.router.navigate(
       ['admin', 'hoteles', 'administrate'],
       //{ skipLocationChange: true }
@@ -63,7 +71,18 @@ export class ListHotelesComponent extends BaseComponents {
   coreSearch() {
     this.hotelesService.get_list_filter(this.filterSearch).subscribe(
       response => {
-        this.list_result = response.result
+        this.list_result = response //.result
+      }, err => {
+
+      }
+    )
+  }
+
+  // --------- EDIT ELEMENT ------------- \\
+  coreDelete(item: any) {
+    this.hotelesService.delete(item).subscribe(
+      response => {
+        this.list_result = response //.result
       }, err => {
 
       }
@@ -71,13 +90,18 @@ export class ListHotelesComponent extends BaseComponents {
   }
 
 
+
+
   // ------------- LOADS ------------- \\
   dtoSelected: any;
   dtoUserSession: any;
   loads_storage() {
     if (isPlatformBrowser(this.platformId)) {
-      this.dtoSelected = JSON.parse(localStorage.getItem('dtoSelected'))
+      //this.dtoSelected = JSON.parse(localStorage.getItem('dtoSelected'))
       this.dtoSelected = JSON.parse(sessionStorage.getItem('AuthenticationMisPueblitosAdmin'))
+      this.filterSearch.user = 1;
+      console.log("this.dtoSelected", this.dtoSelected);
+
     }
   }
 }

@@ -1,4 +1,16 @@
 export class DtoHoteles {
     id : string
-    name : string
+    nombre: string
+    idiomas: any
+    precios: number
+    tipo: string
+    servicios: any
+    lugar: string
+    ubicacion: string
+    contactos: any
+    fotos: any
+    descripcion: string
+    estrellas: number
+    name_route: string
+    hotelDetalleId: any
 }

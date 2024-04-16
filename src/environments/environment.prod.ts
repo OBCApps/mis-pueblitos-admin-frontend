@@ -6,4 +6,4 @@ export const environment = {
 export const API_SERVICE_WEB ='https://backend.mispueblitos.info';
 export const API_SERVICE_SEGURIDAD ='https://backend.mispueblitos.info';
 export const API_SERVICE_COMUN ='https://backend.mispueblitos.info';
-export const API_SERVICE_ADMIN ='https://backend.mispueblitos.info';
+export const API_SERVICE_ADMIN ='https://mis-pueblitos-backend.onrender.com';

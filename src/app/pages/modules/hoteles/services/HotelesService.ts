@@ -40,13 +40,13 @@ export class HotelesService {
     }
 
     update(data: DtoHoteles): Observable<any> {
-        return this.http.patch<any>(this.SERVER_HOTEL + '/update', data).pipe(
+        return this.http.patch<any>(this.SERVER_HOTEL + '/update/' + data.id, data).pipe(
             map((response) => { return response })
         );
     }
 
     delete(data: DtoHoteles): Observable<any> {
-        return this.http.delete<DtoHoteles>(this.SERVER_HOTEL + '/' + data.id).pipe(
+        return this.http.delete<DtoHoteles>(this.SERVER_HOTEL + '/delete/' + data.id).pipe(
             map((response) => { return response })
         );
     }
