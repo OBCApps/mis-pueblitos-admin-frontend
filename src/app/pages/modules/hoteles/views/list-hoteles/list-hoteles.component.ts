@@ -71,6 +71,7 @@ export class ListHotelesComponent extends BaseComponents {
   coreSearch() {
     this.hotelesService.get_list_filter(this.filterSearch).subscribe(
       response => {
+        console.log(response);
         this.list_result = response //.result
       }, err => {
 
