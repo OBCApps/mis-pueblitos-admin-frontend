@@ -1,7 +1,7 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { HotelesService } from '../../services/HotelesService';
-import { isPlatformBrowser } from '@angular/common';
+import { LowerCasePipe, isPlatformBrowser } from '@angular/common';
 import { BaseComponents } from '../../../../shared/global-components/BaseComponents';
 import { DtoHoteles } from '../../models/Dtos/DtoHoteles';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-administrate-hoteles',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, LowerCasePipe],
   templateUrl: './administrate-hoteles.component.html',
   styleUrl: './administrate-hoteles.component.scss'
 })
@@ -45,13 +45,24 @@ export class AdministrateHotelesComponent extends BaseComponents {
       this.dtoUserSession = JSON.parse(sessionStorage.getItem('AuthenticationMisPueblitosAdmin'))
 
       if (this.dtoSelected.option == 'EDIT') {
-        this.HospedajeForm = this.dtoSelected.data;
-        this.HospedajeForm.estrellas = Number(this.HospedajeForm.estrellas)
-        console.log(this.HospedajeForm);
+
+        this.coreSearchById(this.dtoSelected.data)
       } else if (this.dtoSelected.option == 'CREATE') {
+
         this.HospedajeForm = new DtoHoteles()
       }
     }
+  }
+
+  coreSearchById(data: any) {
+    this.hotelesService.get_by_id(data.id).subscribe(
+      response => {
+        this.HospedajeForm = response;
+      }, err => {
+        console.log(err)
+      }
+    )
+
   }
 
   // ---------------- dto HOTELES VALUE ----------- \\
@@ -75,9 +86,14 @@ export class AdministrateHotelesComponent extends BaseComponents {
       response => {
         alert('Actualizado')
       }, err => {
-        alert('Error'+err)
+        alert('Error' + err)
       }
     )
   }
 
+  // ---------------- UPDATES ---------------- \\
+  create_nameRoute(item: any) {
+    const nameRouteWithoutSpaces = item.replace(/\s/g, '-').toLowerCase();
+    this.HospedajeForm.name_route = nameRouteWithoutSpaces;
+  }
 }

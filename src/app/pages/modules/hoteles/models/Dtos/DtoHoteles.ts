@@ -1,3 +1,5 @@
+import { DtoHotelesDetalle } from "./DtoHotelesDetalle"
+
 export class DtoHoteles {
     id : string
     nombre: string
@@ -12,5 +14,5 @@ export class DtoHoteles {
     descripcion: string
     estrellas: number
     name_route: string
-    hotelDetalleId: any
+    hotelDetalle : DtoHotelesDetalle  = new DtoHotelesDetalle()
 }
