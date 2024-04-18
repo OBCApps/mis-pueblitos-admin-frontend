@@ -10,8 +10,8 @@ export class FilterHotelesDto {
 
 
     pagination: {
-        totalRegistros: null,
-        inicio: 0
+        totalRegistros: number,
+        inicio: number
 
     };
     resultado: [] = []

@@ -46,6 +46,8 @@ export class AdministrateHotelesComponent extends BaseComponents {
 
       if (this.dtoSelected.option == 'EDIT') {
         this.HospedajeForm = this.dtoSelected.data;
+        this.HospedajeForm.estrellas = Number(this.HospedajeForm.estrellas)
+        console.log(this.HospedajeForm);
       } else if (this.dtoSelected.option == 'CREATE') {
         this.HospedajeForm = new DtoHoteles()
       }
@@ -55,11 +57,25 @@ export class AdministrateHotelesComponent extends BaseComponents {
   // ---------------- dto HOTELES VALUE ----------- \\
   HospedajeForm: DtoHoteles = new DtoHoteles()
   coreRegister() {
+    const temp = this.HospedajeForm
+    delete temp.id
+    console.log(temp)
     this.hotelesService.create(this.HospedajeForm).subscribe(
       response => {
-        
+        alert('Registrado')
+        console.log(response)
       }, err => {
+        console.log(err)
+      }
+    )
+  }
 
+  coreUpdate() {
+    this.hotelesService.update(this.HospedajeForm).subscribe(
+      response => {
+        alert('Actualizado')
+      }, err => {
+        alert('Error'+err)
       }
     )
   }

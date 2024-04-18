@@ -57,6 +57,7 @@ export class ListHotelesComponent extends BaseComponents {
       option: 'EDIT',
       data: item
     }
+    console.log("data", data);
     localStorage.setItem('dtoSelected', JSON.stringify(data));
 
     this.router.navigate(
@@ -69,12 +70,17 @@ export class ListHotelesComponent extends BaseComponents {
   filterSearch: FilterHotelesDto = new FilterHotelesDto()
   list_result: any[] = []
   coreSearch() {
+    this.filterSearch.pagination = {
+      totalRegistros: 10,
+      inicio: 1
+    }
+    console.log("filterSearch", this.filterSearch);
     this.hotelesService.get_list_filter(this.filterSearch).subscribe(
       response => {
-        console.log(response);
+
         this.filterSearch.pagination = response.pagination;
         this.filterSearch.resultado = response.resultado;
-        this.list_result = response.resultado; //.result
+        this.list_result = response.resultado;
       }, err => {
         console.log(err);
       }
