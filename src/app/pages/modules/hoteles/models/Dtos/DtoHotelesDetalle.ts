@@ -1,16 +1,22 @@
-export class DtoHotelesDetalle {
-    id: string
-    /* idiomas: []
-    servicios: []
-    redes_sociales: []
-    contactos: []
-    fotos: []
-    descripcion: [] */
-    idiomas: any
-    servicios: any
-    redes_sociales: any
-    contactos: any
-    fotos: any
-    descripcion: string
+import { DtoMCServicesNegocio } from './DtoMCServicesNegocio';
 
+export class DtoHotelesDetalle {
+  id: string;
+  idiomas: any;
+  servicios: any;
+  datos: DtoDatos[];
+  redes_sociales: DtoRedesSociales[];
+  fotos: any;
+  mc_servicios_negocios: DtoMCServicesNegocio[];
+}
+
+export class DtoRedesSociales {
+  tipo: string;
+  user: string;
+  valor: string;
+}
+
+export class DtoDatos {
+  tipo: string;
+  valor: string;
 }
