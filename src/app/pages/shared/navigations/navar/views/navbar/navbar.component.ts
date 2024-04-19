@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { SelectorServicesNegocioComponent } from '../../../../global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, SelectorServicesNegocioComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

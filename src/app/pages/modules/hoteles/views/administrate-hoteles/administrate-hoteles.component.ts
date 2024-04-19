@@ -5,6 +5,8 @@ import { LowerCasePipe, isPlatformBrowser } from '@angular/common';
 import { BaseComponents } from '../../../../shared/global-components/BaseComponents';
 import { DtoHoteles } from '../../models/Dtos/DtoHoteles';
 import { FormsModule } from '@angular/forms';
+import { SelectorServicesNegocioComponent } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
+import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
 
 @Component({
   selector: 'app-administrate-hoteles',
@@ -17,7 +19,8 @@ export class AdministrateHotelesComponent extends BaseComponents {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    private hotelesService: HotelesService
+    private hotelesService: HotelesService,
+    private selectorServicioNegocio : SelectorServicesNegocio
   ) {
     super();
   }
@@ -89,5 +92,17 @@ export class AdministrateHotelesComponent extends BaseComponents {
   create_nameRoute(item: any) {
     const nameRouteWithoutSpaces = item.replace(/\s/g, '-').toLowerCase();
     this.HospedajeForm.name_route = nameRouteWithoutSpaces;
+  }
+
+
+  // -------------- MODAL SERVICIOS ---------\\
+  addServiceNegocio(){
+    var data = {
+      option: 'open',
+      valueInput: {
+        type : 'HOSP'
+      }
+    }
+    this.selectorServicioNegocio.activateModal(data);
   }
 }
