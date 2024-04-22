@@ -6,7 +6,9 @@ export class DtoHotelesDetalle {
   servicios: any;
   datos: DtoDatos[];
   redes_sociales: DtoRedesSociales[];
-  fotos: any;
+  fotos: {
+    gallery: string[];
+  };
   mc_servicios_negocios: DtoMCServicesNegocio[];
 }
 

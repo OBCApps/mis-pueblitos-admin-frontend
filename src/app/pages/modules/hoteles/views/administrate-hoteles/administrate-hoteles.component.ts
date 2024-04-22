@@ -7,11 +7,13 @@ import { DtoHoteles } from '../../models/Dtos/DtoHoteles';
 import { FormsModule } from '@angular/forms';
 import { SelectorServicesNegocioComponent } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
 import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
+import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
+import { SelectorFotoNegocioComponent } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.component';
 
 @Component({
   selector: 'app-administrate-hoteles',
   standalone: true,
-  imports: [FormsModule, LowerCasePipe],
+  imports: [FormsModule, LowerCasePipe, SelectorFotoNegocioComponent],
   templateUrl: './administrate-hoteles.component.html',
   styleUrl: './administrate-hoteles.component.scss',
 })
@@ -20,7 +22,8 @@ export class AdministrateHotelesComponent extends BaseComponents {
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     private hotelesService: HotelesService,
-    private selectorServicioNegocio : SelectorServicesNegocio
+    private selectorServicioNegocio: SelectorServicesNegocio,
+    private selectorFotoNegocio: SelectorFotoNegocioService
   ) {
     super();
   }
@@ -51,10 +54,15 @@ export class AdministrateHotelesComponent extends BaseComponents {
     }
   }
 
+  handleResponseModal(event){
+    console.log('event', event);
+    this.HospedajeForm.hotelDetalle.fotos.gallery.push(event.url);
+  }
+
   coreSearchById(data: any) {
     this.hotelesService.get_by_id(data.id).subscribe(
       (response) => {
-        console.log("response",response);
+        console.log('response', response);
         this.HospedajeForm = response;
       },
       (err) => {
@@ -87,6 +95,18 @@ export class AdministrateHotelesComponent extends BaseComponents {
       }
     );
   }
+  addFotoNegocio() {
+    var data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        id: this.HospedajeForm.hotelDetalle.id,
+        foto: true,
+      },
+    };
+    this.selectorFotoNegocio.activateModal(data);
+  }
+  coreUploadFoto(event: any) {}
 
   // ---------------- UPDATES ---------------- \\
   create_nameRoute(item: any) {
@@ -94,15 +114,16 @@ export class AdministrateHotelesComponent extends BaseComponents {
     this.HospedajeForm.name_route = nameRouteWithoutSpaces;
   }
 
-
   // -------------- MODAL SERVICIOS ---------\\
-  addServiceNegocio(){
+  addServiceNegocio() {
     var data = {
       option: 'open',
       valueInput: {
-        type : 'HOSP'
-      }
-    }
+        type: 'HOSP',
+        id: null,
+        foto: false,
+      },
+    };
     this.selectorServicioNegocio.activateModal(data);
   }
 }
