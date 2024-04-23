@@ -5,15 +5,17 @@ import { LowerCasePipe, isPlatformBrowser } from '@angular/common';
 import { BaseComponents } from '../../../../shared/global-components/BaseComponents';
 import { DtoHoteles } from '../../models/Dtos/DtoHoteles';
 import { FormsModule } from '@angular/forms';
-import { SelectorServicesNegocioComponent } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
-import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
+
 import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
 import { SelectorFotoNegocioComponent } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.component';
+import { McRedesSocialesService } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.service';
+import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
+import { McRedesSocialesComponent } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.component';
 
 @Component({
   selector: 'app-administrate-hoteles',
   standalone: true,
-  imports: [FormsModule, LowerCasePipe, SelectorFotoNegocioComponent],
+  imports: [FormsModule, LowerCasePipe, SelectorFotoNegocioComponent, McRedesSocialesComponent],
   templateUrl: './administrate-hoteles.component.html',
   styleUrl: './administrate-hoteles.component.scss',
 })
@@ -23,7 +25,8 @@ export class AdministrateHotelesComponent extends BaseComponents {
     private router: Router,
     private hotelesService: HotelesService,
     private selectorServicioNegocio: SelectorServicesNegocio,
-    private selectorFotoNegocio: SelectorFotoNegocioService
+    private selectorFotoNegocio: SelectorFotoNegocioService,
+    private mcRedesSocialesService: McRedesSocialesService,
   ) {
     super();
   }
@@ -54,7 +57,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     }
   }
 
-  handleResponseModal(event){
+  handleResponseModal(event) {
     console.log('event', event);
     this.HospedajeForm.hotelDetalle.fotos.gallery.push(event.url);
   }
@@ -106,7 +109,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     };
     this.selectorFotoNegocio.activateModal(data);
   }
-  coreUploadFoto(event: any) {}
+  coreUploadFoto(event: any) { }
 
   // ---------------- UPDATES ---------------- \\
   create_nameRoute(item: any) {
@@ -125,5 +128,34 @@ export class AdministrateHotelesComponent extends BaseComponents {
       },
     };
     this.selectorServicioNegocio.activateModal(data);
+  }
+
+
+  addRedesSociales() {
+    var data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        method: 'CREATE',
+        data: null
+      },
+    };
+    this.mcRedesSocialesService.activateModal(data);
+  }
+
+  editRedesSociales(item: any) {
+    var data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        method: 'UPDATE',
+        data: item
+      },
+    };
+    this.mcRedesSocialesService.activateModal(data);
+  }
+
+  deleteRedesSociales(item: any) {
+
   }
 }
