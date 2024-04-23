@@ -11,11 +11,14 @@ import { SelectorFotoNegocioComponent } from '../../../../shared/global-componen
 import { McRedesSocialesService } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.service';
 import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
 import { McRedesSocialesComponent } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.component';
+import { McContactosNegociosService } from '../../../../shared/global-components/modals/mc-contactos-negocio/mc-contactos.service';
+import { McContactosNegociosComponent } from '../../../../shared/global-components/modals/mc-contactos-negocio/mc-contactos.component';
+
 
 @Component({
   selector: 'app-administrate-hoteles',
   standalone: true,
-  imports: [FormsModule, LowerCasePipe, SelectorFotoNegocioComponent, McRedesSocialesComponent],
+  imports: [FormsModule, LowerCasePipe, SelectorFotoNegocioComponent, McRedesSocialesComponent, McContactosNegociosComponent],
   templateUrl: './administrate-hoteles.component.html',
   styleUrl: './administrate-hoteles.component.scss',
 })
@@ -27,6 +30,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     private selectorServicioNegocio: SelectorServicesNegocio,
     private selectorFotoNegocio: SelectorFotoNegocioService,
     private mcRedesSocialesService: McRedesSocialesService,
+    private mcContactosNegociosService: McContactosNegociosService
   ) {
     super();
   }
@@ -137,6 +141,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
       valueInput: {
         type: 'HOSP',
         method: 'CREATE',
+        dataNegocio: this.HospedajeForm,
         data: null
       },
     };
@@ -149,13 +154,37 @@ export class AdministrateHotelesComponent extends BaseComponents {
       valueInput: {
         type: 'HOSP',
         method: 'UPDATE',
+        dataNegocio: this.HospedajeForm,
         data: item
       },
     };
     this.mcRedesSocialesService.activateModal(data);
   }
-
   deleteRedesSociales(item: any) {
 
+  }
+  addContactosNegocios() {
+    var data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        method: 'CREATE',
+        dataNegocio: this.HospedajeForm,
+        data: null
+      },
+    };
+    this.mcContactosNegociosService.activateModal(data);
+  }
+  editContactosNegocios(item: any) {
+    var data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        method: 'UPDATE',
+        dataNegocio: this.HospedajeForm,
+        data: item
+      },
+    };
+    this.mcContactosNegociosService.activateModal(data);
   }
 }

@@ -1,10 +1,10 @@
-<div id="mc-redes-sociales" hidden
+<div id="mc-contactos-negocio" hidden
    class="fixed top-0 right-0 z-30 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-96 dark:bg-gray-800"
-   tabindex="-1" aria-labelledby="mc-redes-sociales">
-   <h5 id="mc-redes-sociales" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">REDES SOCIALES
+   tabindex="-1" aria-labelledby="mc-contactos-negocio">
+   <h5 id="mc-contactos-negocio" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">CONTACTOS NEGOCIO
    </h5>
-   <button (click)="activate_modal('close')" type="button" data-drawer-hide="mc-redes-sociales"
-      aria-controls="mc-redes-sociales"
+   <button (click)="activate_modal('close')" type="button" data-drawer-hide="mc-contactos-negocio"
+      aria-controls="mc-contactos-negocio"
       class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -14,7 +14,7 @@
    </button>
    <div class="py-4 overflow-y-auto">
       <form class="max-w-xl mx-auto">
-
+         
          <div class="grid md:grid-cols-2 md:gap-6">
             <div class="col-span-2 relative z-0 w-full mb-1 group">
                <label for="nombre-negocio" class="block text-sm font-medium text-gray-900 dark:text-white">
@@ -27,7 +27,7 @@
 
             <div class="relative z-0 w-full mb-1 group">
                <label name="nombre" for="nombre" class="block text-sm font-medium text-gray-900 dark:text-white">
-                  Seleccione Red
+                  Tipo contacto
                </label>
 
                <select name="nombre" id="nombre" [(ngModel)]="dtoValue.tipo" required
@@ -40,23 +40,14 @@
 
             <div class="relative z-0 w-full mb-1 group">
                <label for="User" class="block  text-sm font-medium text-gray-900 dark:text-white">
-                  Usuario
+                  Descripcion
                </label>
-               <input [(ngModel)]="dtoValue.user" type="text" name="User" id="User"
+               <input [(ngModel)]="dtoValue.valor" type="text" name="User" id="User"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder=" " required />
 
             </div>
-            <div class="relative z-0 w-full mb-1 group">
-               <label for="ubicacion" class="block  text-sm font-medium text-gray-900 dark:text-white">
-                  Link Red
-               </label>
-               <input [(ngModel)]="dtoValue.valor" type="text" name="ubicacion" id="ubicacion"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder=" " required />
-
-            </div>
-
+           
 
          </div>
          <div class="flex items-center justify-center">

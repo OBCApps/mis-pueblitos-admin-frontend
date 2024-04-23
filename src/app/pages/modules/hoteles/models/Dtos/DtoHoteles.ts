@@ -15,4 +15,5 @@ export class DtoHoteles {
   estrellas: number;
   name_route: string;
   hotelDetalle: DtoHotelesDetalle;
+  habitaciones : any[] = []
 }

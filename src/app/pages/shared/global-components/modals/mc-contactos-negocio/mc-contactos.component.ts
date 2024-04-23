@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { NgFor, isPlatformBrowser } from '@angular/common';
 import { Drawer, DrawerInterface, DrawerOptions, InstanceOptions, Modal, ModalOptions } from 'flowbite';
-import { McRedesSocialesService } from './redes-sociales.service';
-import { DtoRedesSocialesMantenimiento } from './models/DtoRedesSociales';
+import { McContactosNegociosService } from './mc-contactos.service';
+import { DtoContactosNegocioMantenimiento } from './models/DtoContactosNegocioMantenimiento';
+
 
 class DtoModal {
     type: string
@@ -21,19 +22,19 @@ class DataNegocio {
 }
 
 @Component({
-    selector: 'app-redes-sociales-component',
+    selector: 'app-contactos-negocios-component',
     standalone: true,
     imports: [FormsModule, HttpClientModule, NgFor],
-    templateUrl: './redes-sociales.component.html',
-    styleUrl: './redes-sociales.component.scss',
+    templateUrl: './mc-contactos.component.html',
+    styleUrl: './mc-contactos.component.scss',
 })
-export class McRedesSocialesComponent {
+export class McContactosNegociosComponent {
     @Output() responseModal = new EventEmitter<any>();
     Modal: DrawerInterface;
     valueInput: DtoModal = new DtoModal();
 
     constructor(
-        private modalService: McRedesSocialesService,
+        private modalService: McContactosNegociosService,
         @Inject(PLATFORM_ID) private platformId: Object
     ) {
         this.modalService.modalState$.subscribe((option) => {
@@ -41,7 +42,7 @@ export class McRedesSocialesComponent {
             if (this.valueInput.data) {
                 this.dtoValue = { ...this.valueInput.data };
             } else {
-                this.dtoValue = new DtoRedesSocialesMantenimiento()
+                this.dtoValue = new DtoContactosNegocioMantenimiento()
             }
 
 
@@ -58,7 +59,7 @@ export class McRedesSocialesComponent {
     }
 
     // ----------------- FUNCIONALIDAD COMPLETA ------------------------ \\
-    dtoValue: DtoRedesSocialesMantenimiento = new DtoRedesSocialesMantenimiento()
+    dtoValue: DtoContactosNegocioMantenimiento = new DtoContactosNegocioMantenimiento()
 
     selectTipo: any[] = [
         {
@@ -66,16 +67,20 @@ export class McRedesSocialesComponent {
             desc: '-- Todos --'
         },
         {
-            value: 'instagram',
-            desc: 'Instagram'
+            value: 'celular',
+            desc: 'Celular'
         },
         {
-            value: 'facebook',
-            desc: 'Facebook'
+            value: 'correo',
+            desc: 'Correo'
         },
         {
-            value: 'twitter',
-            desc: 'Twitter'
+            value: 'nroWhattsap',
+            desc: 'N° Whattsapp'
+        },
+        {
+            value: 'direccion',
+            desc: 'Dirección'
         },
     ]
 
@@ -108,7 +113,7 @@ export class McRedesSocialesComponent {
         if (isPlatformBrowser(this.platformId)) {
 
 
-            const $targetEl = document.getElementById('mc-redes-sociales');
+            const $targetEl = document.getElementById('mc-contactos-negocio');
             $targetEl.removeAttribute('hidden');
 
             const options: DrawerOptions = {
@@ -131,7 +136,7 @@ export class McRedesSocialesComponent {
             };
 
             const instanceOptions: InstanceOptions = {
-                id: 'mc-redes-sociales',
+                id: 'mc-contactos-negocio',
                 override: true
             };
 
