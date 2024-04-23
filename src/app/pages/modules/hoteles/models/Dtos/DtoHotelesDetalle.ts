@@ -10,6 +10,7 @@ export class DtoHotelesDetalle {
     gallery: string[];
   };
   mc_servicios_negocios: DtoMCServicesNegocio[];
+  infoAdicional: DtoInfoAdicional[];
 }
 
 export class DtoRedesSociales {
@@ -21,4 +22,10 @@ export class DtoRedesSociales {
 export class DtoDatos {
   tipo: string;
   valor: string;
+}
+
+
+export class DtoInfoAdicional {
+  nombreInfo: string;
+  descInfo: string;
 }
