@@ -20,6 +20,7 @@ import { abort } from 'process';
 import { McInfoAdicionalComponent } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.component';
 import { McInfoAdicionalService } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.service';
 import { HotelDetailService } from '../../services/HotelDetailService';
+import { InfoAdicionalService } from '../../services/InfoAdicionalService';
 
 @Component({
   selector: 'app-administrate-hoteles',
@@ -46,7 +47,8 @@ export class AdministrateHotelesComponent extends BaseComponents {
     private mcContactosNegociosService: McContactosNegociosService,
     private redesSocialesService: RedesSocialesService,
     private mcInfoAdicionalService: McInfoAdicionalService,
-    private hotelDetailService: HotelDetailService
+    private hotelDetailService: HotelDetailService,
+    private infoAdicionalService: InfoAdicionalService
   ) {
     super();
   }
@@ -82,12 +84,16 @@ export class AdministrateHotelesComponent extends BaseComponents {
     this.HospedajeForm.hotelDetalle.fotos.gallery.push(event.url);
   }
 
-  handleResponseRedesSociales($event) {
-    this.redesSociales.push($event);
+  handleResponseRedesSociales(event) {
+    this.redesSociales.push(event);
   }
 
-  handleResponseInfoAd($event) {
-    this.list_infoAdicional.push($event);
+  handleResponseInfoAd(event) {
+    console.log("event",event,typeof event);
+    if(typeof event == 'object'){
+      this.getInfoAdicional();
+    }
+    this.list_infoAdicional = event.mc_info_adicional;
   }
 
   coreSearchById(data: any) {
@@ -242,6 +248,20 @@ export class AdministrateHotelesComponent extends BaseComponents {
     this.mcInfoAdicionalService.activateModal(data);
   }
 
+  editInfoAdicional(item) {
+    var data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        method: 'UPDATE',
+        dataNegocio: this.HospedajeForm,
+        data: item,
+      },
+    };
+    console.log(data);
+    this.mcInfoAdicionalService.activateModal(data);
+  }
+
   deleteContactosNegocios(type: string) {
     if (type == 'celular') {
       this.HospedajeForm.celular = '';
@@ -282,6 +302,17 @@ export class AdministrateHotelesComponent extends BaseComponents {
       },
       (err) => {
         console.log(err);
+      }
+    );
+  }
+
+  deleteInfoAdicional(item: any) {
+    this.infoAdicionalService.delete(item).subscribe(
+      (response) => {
+        this.getInfoAdicional();
+      },
+      (err) => {
+        alert('Error' + err);
       }
     );
   }

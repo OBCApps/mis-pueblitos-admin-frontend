@@ -28,6 +28,7 @@ export class DtoDatos {
 
 
 export class DtoInfoAdicional {
+  id: string;
   nombreInfo: string;
   descInfo: string;
 }

@@ -65,6 +65,7 @@ export class McInfoAdicionalComponent {
       console.log('this.valueInput', this.valueInput,this.valueInput.dataNegocio.nombre);
       if (this.valueInput.data) {
         this.dtoValue = { ...this.valueInput.data };
+        console.log('this.dtoValue', this.dtoValue);
       } else {
         this.dtoValue = new DataInfo();
       }
@@ -117,16 +118,16 @@ export class McInfoAdicionalComponent {
   }
 
   coreUpdate() {
-    this.modalService
-      .uploadFoto(this.valueInput.dataNegocio.id, this.valueInput.dataNegocio)
-      .subscribe(
-        (response) => {
-          console.log('response', response);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    this.modalService.updateInfoAdicional(this.dtoValue).subscribe(
+      (response) => {
+        console.log('response', response);
+        this.responseModal.emit(response);
+        this.Modal.hide();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   // ------------------- FUNCIONALIDAD CREAR MODAL -------------------- \\
