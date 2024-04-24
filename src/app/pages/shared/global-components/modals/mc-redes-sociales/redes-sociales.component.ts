@@ -6,6 +6,7 @@ import { NgFor, isPlatformBrowser } from '@angular/common';
 import { Drawer, DrawerInterface, DrawerOptions, InstanceOptions, Modal, ModalOptions } from 'flowbite';
 import { McRedesSocialesService } from './redes-sociales.service';
 import { DtoRedesSocialesMantenimiento } from './models/DtoRedesSociales';
+import { DtoRedesSociales } from '../../../../modules/hoteles/models/Dtos/DtoHotelesDetalle';
 
 class DtoModal {
     type: string
@@ -41,10 +42,8 @@ export class McRedesSocialesComponent {
             if (this.valueInput.data) {
                 this.dtoValue = { ...this.valueInput.data };
             } else {
-                this.dtoValue = new DtoRedesSocialesMantenimiento()
+                this.dtoValue = new DtoRedesSociales()
             }
-
-
             this.activate_modal(option.option);
         });
     }
@@ -58,7 +57,7 @@ export class McRedesSocialesComponent {
     }
 
     // ----------------- FUNCIONALIDAD COMPLETA ------------------------ \\
-    dtoValue: DtoRedesSocialesMantenimiento = new DtoRedesSocialesMantenimiento()
+    dtoValue: DtoRedesSociales = new DtoRedesSociales()
 
     selectTipo: any[] = [
         {
@@ -82,11 +81,35 @@ export class McRedesSocialesComponent {
     // ----------- PARA CREAR ESTOS MODELOS YA TENEMOS LOS DATOS DEL NEGOCIO Y LOS DATOS A AGREGAR
     // ----------- IMPLEMENTAR EL API
     coreRegister() {
-
+      this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
+      this.modalService.uploadFoto(this.dtoValue).subscribe(
+        (response) => {
+          console.log('response', response);
+          this.responseModal.emit(response);
+          this.Modal.hide();
+        }, 
+        (error) => {
+          console.log('error', error);
+          this.responseModal.emit(null);
+          this.Modal.hide();
+        }
+      );
     }
 
     coreUpdate() {
-
+      this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
+      this.modalService.updateRedSocial(this.dtoValue.id, this.dtoValue).subscribe(
+        (response) => {
+          console.log('response', response);
+          this.responseModal.emit(response);
+          this.Modal.hide();
+        }, 
+        (error) => {
+          console.log('error', error);
+          this.responseModal.emit(null);
+          this.Modal.hide();
+        }
+      );
     }
 
 

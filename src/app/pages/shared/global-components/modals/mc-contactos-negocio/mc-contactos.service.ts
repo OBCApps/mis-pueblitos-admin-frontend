@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
     API_SERVICE_ADMIN,
 } from '../../../../../../environments/environment.prod';
+import { DtoHoteles } from '../../../../modules/hoteles/models/Dtos/DtoHoteles';
 @Injectable({
     providedIn: 'root', // O especifica un módulo específico si es necesario
 })
@@ -17,12 +18,11 @@ export class McContactosNegociosService {
         this.modalFotoService.next(option);
     }
 
-    private API_SERVER_ADMIN_FOTO = API_SERVICE_ADMIN + '/hotel-detalle';
+    private API_SERVER_ADMIN_FOTO = API_SERVICE_ADMIN + '/hoteles';
 
     public uploadFoto(id: string, data: any): Observable<any> {
-        const formData = new FormData();
-        formData.append('file', data);
-        return this.http.post<any>(this.API_SERVER_ADMIN_FOTO + '/register-file/' + id, formData).pipe(
+        const {celular, direccion, correo} = data;
+        return this.http.patch<any>(this.API_SERVER_ADMIN_FOTO + '/update/' + id, {celular, direccion, correo}).pipe(
             map((response) => { return response })
         );
     };

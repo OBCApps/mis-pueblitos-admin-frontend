@@ -1,4 +1,4 @@
 export class DtoContactosNegocioMantenimiento {
-  tipo: string = "";
-  valor: string = "";
+  tipo: string;
+  valor: string;
 }

@@ -17,7 +17,7 @@ import {
   Modal,
   ModalOptions,
 } from 'flowbite';
-import { McContactosNegociosService } from './mc-contactos.service';
+import { McInfoAdicionalService } from './mc-info-adicional.service';
 import { DtoContactosNegocioMantenimiento } from './models/DtoContactosNegocioMantenimiento';
 import { DtoHotelesDetalle } from '../../../../modules/hoteles/models/Dtos/DtoHotelesDetalle';
 
@@ -25,9 +25,7 @@ class DtoModal {
   type: string;
   method: string;
   dataNegocio: DataNegocio = new DataNegocio();
-  tipo: string;
-  valor: string;
-  data: DtoContactosNegocioMantenimiento;
+  data: any;
 }
 
 class DataNegocio {
@@ -40,33 +38,36 @@ class DataNegocio {
   correo: string;
 }
 
+class DataInfo {
+  id: string;
+  nombre: string;
+  descripcion: string;
+}
+
 @Component({
-  selector: 'app-contactos-negocios-component',
+  selector: 'app-info-adicional-component',
   standalone: true,
   imports: [FormsModule, HttpClientModule, NgFor],
-  templateUrl: './mc-contactos.component.html',
-  styleUrl: './mc-contactos.component.scss',
+  templateUrl: './mc-info-adicional.component.html',
+  styleUrl: './mc-info-adicional.component.scss',
 })
-export class McContactosNegociosComponent {
+export class McInfoAdicionalComponent {
   @Output() responseModal = new EventEmitter<any>();
   Modal: DrawerInterface;
   valueInput: DtoModal = new DtoModal();
 
   constructor(
-    private modalService: McContactosNegociosService,
+    private modalService: McInfoAdicionalService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.modalService.modalState$.subscribe((option) => {
       this.valueInput = option.valueInput;
-      console.log('this.valueInput', this.valueInput);
-      this.value = this.valueInput.data.valor;
-      this.list_contactos = this.valueInput.dataNegocio.hotelDetalle.datos;
+      console.log('this.valueInput', this.valueInput,this.valueInput.dataNegocio.nombre);
       if (this.valueInput.data) {
         this.dtoValue = { ...this.valueInput.data };
       } else {
-        this.dtoValue = new DtoContactosNegocioMantenimiento();
+        this.dtoValue = new DataInfo();
       }
-
       this.activate_modal(option.option);
     });
   }
@@ -81,36 +82,30 @@ export class McContactosNegociosComponent {
   }
 
   // ----------------- FUNCIONALIDAD COMPLETA ------------------------ \\
-  dtoValue: DtoContactosNegocioMantenimiento =
-    new DtoContactosNegocioMantenimiento();
-  value: string = '';
-  list_contactos: any[] = [];
-  selectTipo: any[] = [
-    {
-      value: null,
-      desc: '-- Todos --',
-    },
-    {
-      value: 'celular',
-      desc: 'Celular',
-    },
-    {
-      value: 'correo',
-      desc: 'Correo',
-    },
-    {
-      value: 'nroWhattsap',
-      desc: 'N° Whattsapp',
-    },
-    {
-      value: 'direccion',
-      desc: 'Dirección',
-    },
-  ];
+  dtoValue: DataInfo = new DataInfo();
 
+  list_contactos: any[] = [];
   // ----------- PARA CREAR ESTOS MODELOS YA TENEMOS LOS DATOS DEL NEGOCIO Y LOS DATOS A AGREGAR
   // ----------- IMPLEMENTAR EL API
   coreRegister() {
+    console.log("dto",this.dtoValue);
+    this.modalService.addInfoAdicional(this.dtoValue).subscribe(
+      (response) => {
+        this.modalService.addInfoAdicionalHotel(this.valueInput.dataNegocio.hotelDetalleId, response).subscribe(
+          (response) => {
+            this.responseModal.emit(response);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
     /*this.modalService.uploadFoto(this.valueInput.dataNegocio.hotelDetalleId, this.list_contactos).subscribe(
         (response) => {
           console.log('response', response);
@@ -120,41 +115,24 @@ export class McContactosNegociosComponent {
         }
       );*/
   }
-  containType(){
-    return Object.keys(this.valueInput.data).includes('type');
-  }
+
   coreUpdate() {
-    console.log('this.valueInput.dataNegocio', Object.keys(this.valueInput.data));
-    if (this.containType()) {
-      if (this.valueInput.data.tipo == 'celular') {
-        this.valueInput.dataNegocio.celular = this.valueInput.valor;
-      }
-
-      if (this.valueInput.data.tipo == 'direccion') {
-        this.valueInput.dataNegocio.direccion = this.valueInput.valor;
-      }
-
-      if (this.valueInput.data.tipo == 'correo') {
-        this.valueInput.dataNegocio.correo = this.valueInput.valor;
-      }
-
-      this.modalService
-        .uploadFoto(this.valueInput.dataNegocio.id, this.valueInput.dataNegocio)
-        .subscribe(
-          (response) => {
-            console.log('response', response);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-    }
+    this.modalService
+      .uploadFoto(this.valueInput.dataNegocio.id, this.valueInput.dataNegocio)
+      .subscribe(
+        (response) => {
+          console.log('response', response);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   // ------------------- FUNCIONALIDAD CREAR MODAL -------------------- \\
   create_modal() {
     if (isPlatformBrowser(this.platformId)) {
-      const $targetEl = document.getElementById('mc-contactos-negocio');
+      const $targetEl = document.getElementById('mc-info-adicional');
       $targetEl.removeAttribute('hidden');
 
       const options: DrawerOptions = {
@@ -177,7 +155,7 @@ export class McContactosNegociosComponent {
       };
 
       const instanceOptions: InstanceOptions = {
-        id: 'mc-contactos-negocio',
+        id: 'mc-info-adicional',
         override: true,
       };
 

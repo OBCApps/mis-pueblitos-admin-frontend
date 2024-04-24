@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   API_SERVICE_ADMIN,
 } from '../../../../../../environments/environment.prod';
+import { DtoRedesSociales } from '../../../../modules/hoteles/models/Dtos/DtoHotelesDetalle';
 @Injectable({
   providedIn: 'root', // O especifica un módulo específico si es necesario
 })
@@ -17,13 +18,20 @@ export class McRedesSocialesService {
     this.modalFotoService.next(option);
   }
 
-  private API_SERVER_ADMIN_FOTO = API_SERVICE_ADMIN + '/hotel-detalle';
+  private API_SERVER_ADMIN_FOTO = API_SERVICE_ADMIN + '/mc-redes-sociales';
 
-  public uploadFoto(id: string,data: any): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', data);
-    return this.http.post<any>(this.API_SERVER_ADMIN_FOTO + '/register-file/'+id, formData).pipe(
+  public uploadFoto(data: any): Observable<any> {
+    delete data.id;
+    return this.http.post<any>(this.API_SERVER_ADMIN_FOTO + '/register', data).pipe(
         map((response) => { return response })
     );
-};
+  };
+  public updateRedSocial(id:string, data:DtoRedesSociales) {
+    const temp = data;
+    delete temp.id;
+    delete temp.hotelDetalleId;
+    return this.http.patch<any>(this.API_SERVER_ADMIN_FOTO + '/update/' + id, temp).pipe(
+      map((response) => { return response })
+    );
+  }
 }

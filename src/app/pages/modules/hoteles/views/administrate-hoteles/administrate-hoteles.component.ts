@@ -13,12 +13,25 @@ import { SelectorServicesNegocio } from '../../../../shared/global-components/mo
 import { McRedesSocialesComponent } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.component';
 import { McContactosNegociosService } from '../../../../shared/global-components/modals/mc-contactos-negocio/mc-contactos.service';
 import { McContactosNegociosComponent } from '../../../../shared/global-components/modals/mc-contactos-negocio/mc-contactos.component';
-
+import { RedesSocialesService } from '../../services/RedesSocialesService';
+import { DtoRedesSociales } from '../../models/Dtos/DtoHotelesDetalle';
+import { response } from 'express';
+import { abort } from 'process';
+import { McInfoAdicionalComponent } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.component';
+import { McInfoAdicionalService } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.service';
+import { HotelDetailService } from '../../services/HotelDetailService';
 
 @Component({
   selector: 'app-administrate-hoteles',
   standalone: true,
-  imports: [FormsModule, LowerCasePipe, SelectorFotoNegocioComponent, McRedesSocialesComponent, McContactosNegociosComponent],
+  imports: [
+    FormsModule,
+    LowerCasePipe,
+    SelectorFotoNegocioComponent,
+    McRedesSocialesComponent,
+    McContactosNegociosComponent,
+    McInfoAdicionalComponent,
+  ],
   templateUrl: './administrate-hoteles.component.html',
   styleUrl: './administrate-hoteles.component.scss',
 })
@@ -30,7 +43,10 @@ export class AdministrateHotelesComponent extends BaseComponents {
     private selectorServicioNegocio: SelectorServicesNegocio,
     private selectorFotoNegocio: SelectorFotoNegocioService,
     private mcRedesSocialesService: McRedesSocialesService,
-    private mcContactosNegociosService: McContactosNegociosService
+    private mcContactosNegociosService: McContactosNegociosService,
+    private redesSocialesService: RedesSocialesService,
+    private mcInfoAdicionalService: McInfoAdicionalService,
+    private hotelDetailService: HotelDetailService
   ) {
     super();
   }
@@ -66,11 +82,21 @@ export class AdministrateHotelesComponent extends BaseComponents {
     this.HospedajeForm.hotelDetalle.fotos.gallery.push(event.url);
   }
 
+  handleResponseRedesSociales($event) {
+    this.redesSociales.push($event);
+  }
+
+  handleResponseInfoAd($event) {
+    this.list_infoAdicional.push($event);
+  }
+
   coreSearchById(data: any) {
     this.hotelesService.get_by_id(data.id).subscribe(
       (response) => {
         console.log('response', response);
         this.HospedajeForm = response;
+        this.getRedesSociales();
+        this.getInfoAdicional();
       },
       (err) => {
         console.log(err);
@@ -113,7 +139,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     };
     this.selectorFotoNegocio.activateModal(data);
   }
-  coreUploadFoto(event: any) { }
+  coreUploadFoto(event: any) {}
 
   // ---------------- UPDATES ---------------- \\
   create_nameRoute(item: any) {
@@ -134,7 +160,6 @@ export class AdministrateHotelesComponent extends BaseComponents {
     this.selectorServicioNegocio.activateModal(data);
   }
 
-
   addRedesSociales() {
     var data = {
       option: 'open',
@@ -142,7 +167,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
         type: 'HOSP',
         method: 'CREATE',
         dataNegocio: this.HospedajeForm,
-        data: null
+        data: null,
       },
     };
     this.mcRedesSocialesService.activateModal(data);
@@ -155,13 +180,20 @@ export class AdministrateHotelesComponent extends BaseComponents {
         type: 'HOSP',
         method: 'UPDATE',
         dataNegocio: this.HospedajeForm,
-        data: item
+        data: item,
       },
     };
     this.mcRedesSocialesService.activateModal(data);
   }
-  deleteRedesSociales(item: any) {
-
+  deleteRedesSociales(item: DtoRedesSociales) {
+    this.redesSocialesService.delete(item).subscribe(
+      (response) => {
+        this.getRedesSociales();
+      },
+      (err) => {
+        alert('Error' + err);
+      }
+    );
   }
   addContactosNegocios() {
     var data = {
@@ -170,21 +202,87 @@ export class AdministrateHotelesComponent extends BaseComponents {
         type: 'HOSP',
         method: 'CREATE',
         dataNegocio: this.HospedajeForm,
-        data: null
+        data: { tipo: "", valor: "" },
+        tipo: "",
+        valor: ""
       },
     };
     this.mcContactosNegociosService.activateModal(data);
   }
-  editContactosNegocios(item: any) {
+  editContactosNegocios(tipo: string) {
     var data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
         method: 'UPDATE',
         dataNegocio: this.HospedajeForm,
-        data: item
+        tipo: tipo,
+        valor: tipo == 'celular' ? this.HospedajeForm.celular : tipo == 'direccion' ? this.HospedajeForm.direccion : this.HospedajeForm.correo,
+        data:
+          tipo == 'celular'
+            ? { tipo, valor: this.HospedajeForm.celular }
+            : tipo == 'direccion'
+            ? { tipo, valor: this.HospedajeForm.direccion }
+            : { tipo, valor: this.HospedajeForm.correo },
       },
     };
     this.mcContactosNegociosService.activateModal(data);
+  }
+
+  addInfoAdicional() {
+    var data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        method: 'CREATE',
+        dataNegocio: this.HospedajeForm,
+        data: null,
+      },
+    };
+    this.mcInfoAdicionalService.activateModal(data);
+  }
+
+  deleteContactosNegocios(type: string) {
+    if (type == 'celular') {
+      this.HospedajeForm.celular = '';
+    } else if (type == 'direccion') {
+      this.HospedajeForm.direccion = '';
+    } else {
+      this.HospedajeForm.correo = '';
+    }
+    this.hotelesService.update(this.HospedajeForm).subscribe(
+      (response) => {
+        this.HospedajeForm = response;
+      },
+      (err) => {
+        alert('Error' + err);
+      }
+    );
+  }
+
+  redesSociales: DtoRedesSociales[] = [];
+  getRedesSociales() {
+    this.redesSocialesService
+      .get_by_hotel_detail_id(this.HospedajeForm.hotelDetalle.id)
+      .subscribe(
+        (response) => {
+          this.redesSociales = response;
+        },
+        (err) => {
+          alert('Error' + err);
+        }
+      );
+  }
+  list_infoAdicional=[];
+  getInfoAdicional(){
+    this.hotelDetailService.get_info_adicional_by_id(this.HospedajeForm.hotelDetalle.id).subscribe(
+      (response) => {
+        console.log('response', response);
+        this.list_infoAdicional = response;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

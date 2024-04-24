@@ -14,9 +14,11 @@ export class DtoHotelesDetalle {
 }
 
 export class DtoRedesSociales {
+  id: string;
   tipo: string;
-  user: string;
+  usuario: string;
   valor: string;
+  hotelDetalleId: string;
 }
 
 export class DtoDatos {

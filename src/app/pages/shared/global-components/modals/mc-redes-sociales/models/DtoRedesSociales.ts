@@ -1,5 +1,6 @@
 export class DtoRedesSocialesMantenimiento {
     tipo : string
-    user : string
-    valor : string    
+    usuario : string
+    valor : string
+    hotelDetalleId : string
 }

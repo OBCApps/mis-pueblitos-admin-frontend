@@ -26,6 +26,12 @@ export class HotelDetailService {
         );
     }
 
+    get_info_adicional_by_id(id: any): Observable<any> {
+        return this.http.get<any>(this.SERVER_HOTEL_DETAIL + '/infoAdicional/' + id).pipe(
+            map((response) => { return response })
+        );
+    };
+
     create(data: DtoHotelesDetalle): Observable<any> {
         return this.http.post<DtoHotelesDetalle>(this.SERVER_HOTEL_DETAIL + '/register', data).pipe(
             map((response) => { return response })
