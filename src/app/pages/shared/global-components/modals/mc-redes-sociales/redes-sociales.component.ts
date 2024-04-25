@@ -85,9 +85,10 @@ export class McRedesSocialesComponent {
       this.modalService.uploadFoto(this.dtoValue).subscribe(
         (response) => {
           console.log('response', response);
+          response["action-model"]="create";
           this.responseModal.emit(response);
           this.Modal.hide();
-        }, 
+        },
         (error) => {
           console.log('error', error);
           this.responseModal.emit(null);
@@ -101,9 +102,10 @@ export class McRedesSocialesComponent {
       this.modalService.updateRedSocial(this.dtoValue.id, this.dtoValue).subscribe(
         (response) => {
           console.log('response', response);
+          response["action-model"]="update";
           this.responseModal.emit(response);
           this.Modal.hide();
-        }, 
+        },
         (error) => {
           console.log('error', error);
           this.responseModal.emit(null);

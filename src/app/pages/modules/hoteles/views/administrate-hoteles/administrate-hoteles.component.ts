@@ -85,15 +85,20 @@ export class AdministrateHotelesComponent extends BaseComponents {
   }
 
   handleResponseRedesSociales(event) {
-    this.redesSociales.push(event);
+    if (event['action-model'] == 'update') {
+      this.getRedesSociales();
+    } else {
+      this.redesSociales.push(event);
+    }
   }
 
   handleResponseInfoAd(event) {
-    console.log("event",event,typeof event);
-    if(typeof event == 'object'){
+    console.log('event', event, typeof event);
+    if (typeof event == 'object') {
       this.getInfoAdicional();
+    } else {
+      this.list_infoAdicional = event.mc_info_adicional;
     }
-    this.list_infoAdicional = event.mc_info_adicional;
   }
 
   coreSearchById(data: any) {
@@ -208,9 +213,9 @@ export class AdministrateHotelesComponent extends BaseComponents {
         type: 'HOSP',
         method: 'CREATE',
         dataNegocio: this.HospedajeForm,
-        data: { tipo: "", valor: "" },
-        tipo: "",
-        valor: ""
+        data: { tipo: '', valor: '' },
+        tipo: '',
+        valor: '',
       },
     };
     this.mcContactosNegociosService.activateModal(data);
@@ -223,7 +228,12 @@ export class AdministrateHotelesComponent extends BaseComponents {
         method: 'UPDATE',
         dataNegocio: this.HospedajeForm,
         tipo: tipo,
-        valor: tipo == 'celular' ? this.HospedajeForm.celular : tipo == 'direccion' ? this.HospedajeForm.direccion : this.HospedajeForm.correo,
+        valor:
+          tipo == 'celular'
+            ? this.HospedajeForm.celular
+            : tipo == 'direccion'
+            ? this.HospedajeForm.direccion
+            : this.HospedajeForm.correo,
         data:
           tipo == 'celular'
             ? { tipo, valor: this.HospedajeForm.celular }
@@ -293,17 +303,19 @@ export class AdministrateHotelesComponent extends BaseComponents {
         }
       );
   }
-  list_infoAdicional=[];
-  getInfoAdicional(){
-    this.hotelDetailService.get_info_adicional_by_id(this.HospedajeForm.hotelDetalle.id).subscribe(
-      (response) => {
-        console.log('response', response);
-        this.list_infoAdicional = response;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+  list_infoAdicional = [];
+  getInfoAdicional() {
+    this.hotelDetailService
+      .get_info_adicional_by_id(this.HospedajeForm.hotelDetalle.id)
+      .subscribe(
+        (response) => {
+          console.log('response', response);
+          this.list_infoAdicional = response;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   deleteInfoAdicional(item: any) {
