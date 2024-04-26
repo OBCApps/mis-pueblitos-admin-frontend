@@ -25,5 +25,5 @@ export class McContactosNegociosService {
         return this.http.patch<any>(this.API_SERVER_ADMIN_FOTO + '/update/' + id, {celular, direccion, correo}).pipe(
             map((response) => { return response })
         );
-    };
+    }
 }

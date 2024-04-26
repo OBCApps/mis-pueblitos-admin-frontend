@@ -25,7 +25,7 @@ export class McRedesSocialesService {
     return this.http.post<any>(this.API_SERVER_ADMIN_FOTO + '/register', data).pipe(
         map((response) => { return response })
     );
-  };
+  }
   public updateRedSocial(id:string, data:DtoRedesSociales) {
     const temp = data;
     delete temp.id;

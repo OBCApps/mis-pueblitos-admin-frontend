@@ -30,7 +30,7 @@ export class RedesSocialesService {
       return this.http.get<DtoRedesSociales[]>(this.SERVER_REDES_SOCIALES + '/hotel-detalle/' + id).pipe(
         map((response) => { return response })
       );
-    };
+    }
 
     create(data: DtoRedesSociales): Observable<DtoRedesSociales> {
         return this.http.post<DtoRedesSociales>(this.SERVER_REDES_SOCIALES + '/register', data).pipe(

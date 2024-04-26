@@ -140,7 +140,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     );
   }
   addFotoNegocio() {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
@@ -160,7 +160,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
 
   // -------------- MODAL SERVICIOS ---------\\
   addServiceNegocio() {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
@@ -172,7 +172,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
   }
 
   addRedesSociales() {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
@@ -185,7 +185,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
   }
 
   editRedesSociales(item: any) {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
@@ -207,7 +207,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     );
   }
   addContactosNegocios() {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
@@ -221,7 +221,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     this.mcContactosNegociosService.activateModal(data);
   }
   editContactosNegocios(tipo: string) {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
@@ -246,7 +246,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
   }
 
   addInfoAdicional() {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',
@@ -259,7 +259,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
   }
 
   editInfoAdicional(item) {
-    var data = {
+    const data = {
       option: 'open',
       valueInput: {
         type: 'HOSP',

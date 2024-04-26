@@ -25,5 +25,5 @@ export class SelectorFotoNegocioService {
     return this.http.post<any>(this.API_SERVER_ADMIN_FOTO + '/register-file/'+id, formData).pipe(
         map((response) => { return response })
     );
-};
+}
 }

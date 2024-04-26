@@ -30,7 +30,7 @@ export class HotelDetailService {
         return this.http.get<any>(this.SERVER_HOTEL_DETAIL + '/infoAdicional/' + id).pipe(
             map((response) => { return response })
         );
-    };
+    }
 
     create(data: DtoHotelesDetalle): Observable<any> {
         return this.http.post<DtoHotelesDetalle>(this.SERVER_HOTEL_DETAIL + '/register', data).pipe(
@@ -42,7 +42,7 @@ export class HotelDetailService {
         return this.http.post<any>(this.SERVER_HOTEL_DETAIL + '/upload-foto/'+id, data).pipe(
             map((response) => { return response })
         );
-    };
+    }
 
     update(data: DtoHotelesDetalle): Observable<any> {
         return this.http.patch<DtoHotelesDetalle>(this.SERVER_HOTEL_DETAIL + '/update/' + data.id, data).pipe(
