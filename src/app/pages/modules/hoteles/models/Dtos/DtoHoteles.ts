@@ -1,11 +1,12 @@
 import { DtoHotelesDetalle } from './DtoHotelesDetalle';
+import { DtoMCServicesNegocio } from './DtoMCServicesNegocio';
 
 export class DtoHoteles {
   id: string;
   nombre: string;
   precios: number;
   tipo: string;
-  servicios: any;
+  servicios: DtoMCServicesNegocio[];
   lugar: string;
   ubicacion: string;
   fotos: any;

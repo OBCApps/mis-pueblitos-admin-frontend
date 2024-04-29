@@ -15,8 +15,7 @@ import { McContactosNegociosService } from '../../../../shared/global-components
 import { McContactosNegociosComponent } from '../../../../shared/global-components/modals/mc-contactos-negocio/mc-contactos.component';
 import { RedesSocialesService } from '../../services/RedesSocialesService';
 import { DtoRedesSociales } from '../../models/Dtos/DtoHotelesDetalle';
-import { response } from 'express';
-import { abort } from 'process';
+
 import { McInfoAdicionalComponent } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.component';
 import { McInfoAdicionalService } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.service';
 import { HotelDetailService } from '../../services/HotelDetailService';
@@ -81,7 +80,9 @@ export class AdministrateHotelesComponent extends BaseComponents {
 
   handleResponseModal(event) {
     console.log('event', event);
-    this.HospedajeForm.hotelDetalle.fotos.gallery.push(event.url);
+    if(event){
+      this.HospedajeForm.hotelDetalle.fotos.gallery.push(event.url);
+    }
   }
 
   handleResponseRedesSociales(event) {

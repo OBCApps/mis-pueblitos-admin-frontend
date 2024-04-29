@@ -2,7 +2,7 @@ import { DtoMCServicesNegocio } from "./DtoMCServicesNegocio";
 
 export class DtoHabitacion {
   id: string;
-  nombre: string; 
+  nombre: string;
   servicios: DtoMCServicesNegocio [];
   tipoMoneda: string;
   precio: number;
