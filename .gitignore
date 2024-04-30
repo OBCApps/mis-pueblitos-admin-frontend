@@ -10,7 +10,7 @@
 /node_modules
 npm-debug.log
 yarn-error.log
-
+eslint.config.mjs
 # IDEs and editors
 .idea/
 .project
@@ -19,6 +19,7 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+**/dist/
 
 # Visual Studio Code
 .vscode/*
