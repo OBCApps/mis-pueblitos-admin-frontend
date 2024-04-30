@@ -1,21 +1,18 @@
-xxxxxxxxxxxxxxxx
 <div class="login  shadow-md bg-gray-700 ">
-
     <div class="lg:h-[10vh]">
-        <nav class="lg:h-[8vh] mx-2 lg:mx-5  border-b border-white ">
+        <nav class="lg:h-[8vh] mx-2 lg:mx-5 border-b border-white">
             <div class="left-section">
                 <div>
-                    <h1 class=" font-semibold mx-2 text-white ">
-                        <!-- <svg class="h-14 w-14"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="7" cy="15" r="4" />  <line x1="7" y1="15" x2="7" y2="15.01" />  <circle cx="19" cy="17" r="2" />  <path d="M10.5 17h6.5" />  <path d="M20 15.2v-4.2a1 1 0 0 0 -1 -1h-6l-2 -5h-6v6.5" />  <path d="M18 5h-1a1 1 0 0 0 -1 1v4" /></svg> -->
-                        <!-- <img src="./../../../assets/images/logo.png" class="h-10 pt-2"> -->
+                    <h1 class="font-semibold mx-2 text-white pt-2">
+                        <div class="image-container h-10 w-28"></div>
                     </h1>
                 </div>
             </div>
         </nav>
     </div>
-
-    <!-- <h1 class="text-black text-3xl text-center font-bold pt-[2%]"> ERP - RANSA </h1> -->
-    <h1 class="text-white text-3xl text-center font-bold pt-[2%]"> PORTAL RANSA </h1>
+    
+    
+    <h1 class="text-white text-3xl text-center font-bold pt-[2%]"> ERP - MIS PUEBLITOS </h1>
 
     <div class=" global-center lg:justify-end  md:pr-[4%]  ">
         <div class=" bg-white  mt-[20%] lg:mt-[5%] p-10 rounded-lg">
@@ -34,7 +31,7 @@ xxxxxxxxxxxxxxxx
 
                             </div>
                             <input [(ngModel)]="usuario" type="username" autocomplete="off"
-                                aria-describedby="username1-help" [class]="inputNormalIn + ' pl-8'" pInputText />
+                                aria-describedby="username1-help" [class]="inputNormalIn + ' pl-8'" />
                         </div>
                     </div>
                 </div>
@@ -69,7 +66,7 @@ xxxxxxxxxxxxxxxx
 
                 <p class="text-xs text-right cursor-pointer py-3"> Recuperar Contraseña</p>
                 <div class="global-center">
-                    <button (click)="login()" class="w-full h-[3em] bg-teal-400 text-white cursor-pointer font-bold ">
+                    <button (click)="login()" class="w-full h-[3em] bg-primary text-white cursor-pointer font-bold rounded-lg">
                         LOGIN
                     </button>
                 </div>
