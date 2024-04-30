@@ -95,7 +95,7 @@ export class ListHabitacionesComponent extends BaseComponents {
 
 
     this.router.navigate(
-      ['admin', 'hoteles', 'administrate'],
+      ['admin', 'habitaciones', 'administrate'],
       //{ skipLocationChange: true }
     );
   }
