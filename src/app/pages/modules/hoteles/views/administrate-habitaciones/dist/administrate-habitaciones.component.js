@@ -76,8 +76,20 @@ var AdministrateHabitacionesComponent = /** @class */ (function (_super) {
         var nameRouteWithoutSpaces = item.replace(/\s/g, '-').toLowerCase();
         this.HabitacionForm.name_route = nameRouteWithoutSpaces;
     };
-    AdministrateHabitacionesComponent.prototype.coreRegister = function () { };
-    AdministrateHabitacionesComponent.prototype.coreUpdate = function () { };
+    AdministrateHabitacionesComponent.prototype.coreRegister = function () {
+        this.habitacionService.create(this.HabitacionForm).subscribe(function (_) {
+            alert('Se registró correctamente');
+        }, function (err) {
+            console.log(err);
+        });
+    };
+    AdministrateHabitacionesComponent.prototype.coreUpdate = function () {
+        this.habitacionService.update(this.HabitacionForm).subscribe(function (_) {
+            alert('Se actualizó correctamente');
+        }, function (err) {
+            console.log(err);
+        });
+    };
     AdministrateHabitacionesComponent.prototype.handleResponseModal = function (event) {
         console.log('event', event);
         if (event) {

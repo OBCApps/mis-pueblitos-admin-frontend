@@ -5,6 +5,7 @@ import { HabitacionService } from '../../services/HabitacionService';
 import { isPlatformBrowser } from '@angular/common';
 import { FilterHabitacionDto } from '../../models/Filters/FilterHabitacionDto';
 import { FormsModule } from '@angular/forms';
+import { DtoHabitacion } from '../../models/Dtos/DtoHabitacion';
 
 @Component({
   selector: 'app-list-habitaciones',
@@ -85,5 +86,17 @@ export class ListHabitacionesComponent extends BaseComponents {
       }
     )
   }
-  coreNew() {}
+  coreNew() {
+    const data = {
+      option: 'CREATE',
+      data: new DtoHabitacion()
+    }
+    localStorage.setItem('dtoSelected', JSON.stringify(data));
+
+
+    this.router.navigate(
+      ['admin', 'hoteles', 'administrate'],
+      //{ skipLocationChange: true }
+    );
+  }
 }

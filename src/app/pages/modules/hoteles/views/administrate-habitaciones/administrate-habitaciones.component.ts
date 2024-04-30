@@ -78,8 +78,26 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
     this.HabitacionForm.name_route = nameRouteWithoutSpaces;
   }
 
-  coreRegister() {}
-  coreUpdate() {}
+  coreRegister() {
+    this.habitacionService.create(this.HabitacionForm).subscribe(
+      (_) => {
+        alert('Se registró correctamente');
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  coreUpdate() {
+    this.habitacionService.update(this.HabitacionForm).subscribe(
+      (_) => {
+        alert('Se actualizó correctamente');
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 
   handleResponseModal(event){
     console.log('event', event);
