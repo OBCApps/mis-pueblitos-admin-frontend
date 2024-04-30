@@ -10,15 +10,15 @@
             </div>
         </nav>
     </div>
-    
-    
+
+
     <h1 class="text-white text-3xl text-center font-bold pt-[2%]"> ERP - MIS PUEBLITOS </h1>
 
-    <div class=" global-center lg:justify-end  md:pr-[4%]  ">
+    <div class="flex items-center justify-center lg:justify-end  md:pr-[4%]  ">
         <div class=" bg-white  mt-[20%] lg:mt-[5%] p-10 rounded-lg">
             <div>
-
-                <div class="global-center py-1 md:py-2">
+                <br>
+                <div class="flex items-center justify-center py-1 md:py-2">
                     <div class="field relative">
                         <label [class]="inputNormalLabel">Usuario </label>
                         <div class="relative flex items-stretch">
@@ -37,7 +37,7 @@
                 </div>
 
 
-                <div class="global-center py-1 md:py-2 ">
+                <div class="flex items-center justify-center py-1 md:py-2 ">
                     <div class="relative">
                         <label [class]="inputNormalLabel">Contraseña</label>
                         <input [(ngModel)]="password" type="{{verClaveTypeText}}" autocomplete="off"
@@ -63,26 +63,31 @@
                 </div>
 
 
-
-                <p class="text-xs text-right cursor-pointer py-3"> Recuperar Contraseña</p>
-                <div class="global-center">
-                    <button (click)="login()" class="w-full h-[3em] bg-primary text-white cursor-pointer font-bold rounded-lg">
-                        LOGIN
+                <br>
+                <!-- <p class="text-xs text-right cursor-pointer py-3"> Recuperar Contraseña</p> -->
+                <div class="flex items-center justify-center">
+                    <button (click)="login()"
+                        class="w-full h-[3em] bg-primary text-white cursor-pointer font-bold rounded-lg">
+                        INGRESAR
                     </button>
                 </div>
-                <!--   <div class="global-center">
-                    <button (click)="goToRegister()"
-                        class="w-full h-[3em] bg-white text-teal-400 cursor-pointer font-bold ">
-                        REGISTRO</button>
-                </div> -->
+                <br>
+
+
+                <div class="flex items-center justify-center">
+                    <!-- <button (click)="goToRegister()"
+                        class="w-full h-[3em] bg-white text-primary cursor-pointer font-bold ">
+                        REGISTRO</button> -->
+                </div>
             </div>
         </div>
     </div>
 
     <h1 class="absolute left-0 bottom-0 p-5 text-gray-500 text-4xl font-semibold" style="line-height: .9em!important;">
-        <!-- PORTAL ERP - RANSA -->
-        <p class="text-lg font-thin opacity-60" style="color: white;font-weight:100!important;opacity:0.7">CEOdevs Company v1.0.0</p>
+        <p class="text-lg font-thin opacity-60" style="color: white;font-weight:100!important;opacity:0.7">CEOdevs
+            Company v1.0.0</p>
     </h1>
     <p class="hidden  md:flex absolute right-0 bottom-0 p-5 text-sm "
-        style="color: white;font-weight:100!important;opacity:0.7">© 2023 CEOdevs Company – Todos los derechos reservados</p> 
+        style="color: white;font-weight:100!important;opacity:0.7">© 2023 CEOdevs Company – Todos los derechos
+        reservados</p>
 </div>
