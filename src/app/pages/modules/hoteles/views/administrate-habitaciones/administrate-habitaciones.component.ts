@@ -5,11 +5,20 @@ import { LowerCasePipe, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { HabitacionService } from '../../services/HabitacionService';
 import { DtoHabitacion } from '../../models/Dtos/DtoHabitacion';
+import { SelectorServicesNegocioComponent } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
+import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
+import { SelectorFotoNegocioComponent } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.component';
+import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
 
 @Component({
   selector: 'app-administrate-habitaciones',
   standalone: true,
-  imports: [FormsModule, LowerCasePipe],
+  imports: [
+    FormsModule,
+    LowerCasePipe,
+    SelectorServicesNegocioComponent,
+    SelectorFotoNegocioComponent,
+  ],
   templateUrl: './administrate-habitaciones.component.html',
   styleUrl: './administrate-habitaciones.component.scss',
 })
@@ -17,7 +26,9 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    private habitacionService: HabitacionService
+    private habitacionService: HabitacionService,
+    private selectorServicesNegocio: SelectorServicesNegocio,
+    private selectorFotoNegocio: SelectorFotoNegocioService,
   ) {
     super();
   }
@@ -69,7 +80,81 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
 
   coreRegister() {}
   coreUpdate() {}
-  addServiceNegocio() {}
+
+  handleResponseModal(event){
+    console.log('event', event);
+    if(event){
+      this.HabitacionForm.fotos.gallery.push(event.url);
+    }
+  }
+
+  addFotoNegocio() {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'HAB',
+        id: this.HabitacionForm.id,
+        foto: true,
+      },
+    };
+    this.selectorFotoNegocio.activateModal(data);
+  }
+
+  coreRemove(item: any) {
+    this.habitacionService
+      .remove_service(this.HabitacionForm.id, item)
+      .subscribe(
+        (_) => {
+          this.HabitacionForm.mc_servicios_negocios =
+            this.HabitacionForm.mc_servicios_negocios.filter(
+              (service) => service.id !== item.id
+            );
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  addServiceNegocio() {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'HOSP',
+        foto: true,
+      },
+    };
+    this.selectorServicesNegocio.activateModal(data);
+  }
+
+  handleServiceNegocio(event: any) {
+    console.log('evento', event.selected);
+    if (this.existService(event.selected.id)) {
+      alert('El servicio ya se encuentra agregado');
+      return;
+    }
+
+    this.habitacionService
+      .add_service(this.HabitacionForm.id, event.selected)
+      .subscribe(
+        (_) => {
+          this.HabitacionForm.mc_servicios_negocios.push(event.selected);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  existService(id: string): boolean {
+    // Busca el servicio en la lista de servicios de la habitación
+    const service = this.HabitacionForm.mc_servicios_negocios.find(
+      (item) => item.id === id
+    );
+
+    // Si el servicio se encuentra, devuelve true; de lo contrario, devuelve false
+    return !!service;
+  }
 
   // ---------------- dto HOTELES VALUE ----------- \\
   HabitacionForm: DtoHabitacion = new DtoHabitacion();

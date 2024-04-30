@@ -76,7 +76,7 @@
                 {{item.nombreServicio}}
               </th>
               <td class="px-2 md:px-6 py-4 capitalize">
-                {{item.descripcion | lowercase}}
+                {{item.descripcionServicio | lowercase}}
               </td>
               <td class="px-6 py-4">
                 <a (click)="selectItem(item)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
@@ -84,17 +84,7 @@
                 </a>
               </td>
             </tr>
-            }<!-- @empty {
-                            <div class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                No se encontrarón resultados
-                            </div>
-                        } -->
-
-
-
-
-
-
+            }
           </tbody>
         </table>
         @if(loadingSearch){

@@ -45,7 +45,9 @@ export class SelectorServicesNegocioComponent {
     this.loadingSearch = true;
     this.filtro.paginacion.paginacionListaResultado = [];
     this.modalService.list_by_filter(this.filtro).subscribe((pg) => {
-      this.filtro.paginacion = pg;
+      console.log("pg",pg);
+      this.filtro = pg;
+      console.log(this.filtro);
       this.loadingSearch = false;
     });
   }
@@ -97,7 +99,7 @@ export class SelectorServicesNegocioComponent {
       this.filtro = new FiltroComunUbigeo();
     } else if (option == 'open') {
       this.create_modal();
-      this.filtro.paginacion.paginacionRegistroInicio = 0;
+      this.filtro.paginacion.paginacionRegistroInicio = 1;
       this.filtro.paginacion.paginacionRegistrosPorPagina = 5;
       this.search_all();
     }

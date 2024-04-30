@@ -78,14 +78,19 @@ export class SelectorFotoNegocioComponent {
   }
   upload_file() {
     console.log('valueInput', this.valueInput.id);
-    this.modalService.uploadFoto(this.valueInput.id, this.file).subscribe(
+    this.modalService.uploadFoto(this.valueInput.id, this.file,this.valueInput.type).subscribe(
       (response) => {
         console.log('response', response);
         this.responseModal.emit(response);
         this.Modal.hide();
       },
       (error) => {
-        console.log('error', error);
+        console.log('error', error.error.message);
+        if(error.error.message=="No se pueden subir más fotos"){
+          alert('Excedió el límite de fotos permitidas');
+        }else{
+          alert('Error al subir la foto');
+        }
         this.responseModal.emit(null);
         this.Modal.hide();
       }

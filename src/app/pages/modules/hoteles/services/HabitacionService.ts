@@ -27,6 +27,22 @@ export class HabitacionService {
     );
   }
 
+  add_service(id: string, data: any){
+    return this.http.post<DtoHabitacion>(this.SERVER_HABITACION + '/addService/' + id,data).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+  remove_service(id: string, data: any){
+    return this.http.post<DtoHabitacion>(this.SERVER_HABITACION + '/removeService/' + id,data).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
   get_list_filter(filter: FilterHabitacionDto): Observable<any> {
     return this.http
       .post<any>(this.SERVER_HABITACION + '/list-filter', filter)

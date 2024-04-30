@@ -3,7 +3,7 @@ import { DtoMCServicesNegocio } from "./DtoMCServicesNegocio";
 export class DtoHabitacion {
   id: string;
   nombre: string;
-  servicios: DtoMCServicesNegocio [];
+  mc_servicios_negocios: DtoMCServicesNegocio [];
   tipoMoneda: string;
   precio: number;
   disponible: boolean;
@@ -11,7 +11,7 @@ export class DtoHabitacion {
   personas: number;
   camas: number;
   tipo: string;
-  fotos: object;
+  fotos: {gallery: string[],principal: string};
   hotelId: string;
   hotelNombre: string;
   estrellas: number;

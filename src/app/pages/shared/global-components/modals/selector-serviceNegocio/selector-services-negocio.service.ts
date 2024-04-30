@@ -5,7 +5,6 @@ import { DominioPaginacion } from './structures/NegocioPaginacion';
 
 import { HttpClient } from '@angular/common/http';
 import {
-  API_SERVICE_COMUN,
   API_SERVICE_ADMIN,
 } from '../../../../../../environments/environment.prod';
 @Injectable({
@@ -21,7 +20,7 @@ export class SelectorServicesNegocio {
     this.modalUbigeoService.next(option);
   }
 
-  private API_SERVER_COMUN_DEPARTAMENTO = API_SERVICE_COMUN + '/nombreAPi';
+  private API_SERVER_COMUN_DEPARTAMENTO = API_SERVICE_ADMIN + '/mc-servicios-negocios';
 
   public list_by_filter(dto: any): Observable<any> {
     return this.http
