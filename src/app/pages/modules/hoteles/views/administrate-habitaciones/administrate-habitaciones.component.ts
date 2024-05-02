@@ -47,9 +47,7 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
   loads_storage() {
     if (isPlatformBrowser(this.platformId)) {
       this.dtoSelected = JSON.parse(localStorage.getItem('dtoSelected'));
-      this.dtoUserSession = JSON.parse(
-        sessionStorage.getItem('AuthenticationMisPueblitosAdmin')
-      );
+      this.dtoUserSession = JSON.parse(sessionStorage.getItem('AuthenticationMisPueblitosAdmin'));
 
       if (this.dtoSelected.option == 'EDIT') {
         this.coreSearchById(this.dtoSelected.data);
@@ -99,9 +97,9 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
     );
   }
 
-  handleResponseModal(event){
+  handleResponseModal(event) {
     console.log('event', event);
-    if(event){
+    if (event) {
       this.HabitacionForm.fotos.gallery.push(event.url);
     }
   }

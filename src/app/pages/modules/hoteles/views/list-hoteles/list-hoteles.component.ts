@@ -40,13 +40,9 @@ export class ListHotelesComponent extends BaseComponents {
       option: 'CREATE',
       data: new DtoHoteles()
     }
+    
     localStorage.setItem('dtoSelected', JSON.stringify(data));
-
-
-    this.router.navigate(
-      ['admin', 'hoteles', 'administrate'],
-      //{ skipLocationChange: true }
-    );
+    this.router.navigate(['admin', 'hoteles', 'administrate']);
 
 
   }
@@ -57,13 +53,9 @@ export class ListHotelesComponent extends BaseComponents {
       option: 'EDIT',
       data: item
     }
-    console.log("data", data);
-    localStorage.setItem('dtoSelected', JSON.stringify(data));
 
-    this.router.navigate(
-      ['admin', 'hoteles', 'administrate'],
-      //{ skipLocationChange: true }
-    );
+    localStorage.setItem('dtoSelected', JSON.stringify(data));
+    this.router.navigate(['admin', 'hoteles', 'administrate'],);
   }
 
   // --------- FUNCTION SEARCH ------------- \\
@@ -74,24 +66,25 @@ export class ListHotelesComponent extends BaseComponents {
       totalRegistros: 10,
       inicio: 1
     }
-    console.log("filterSearch", this.filterSearch);
+
     this.hotelesService.get_list_filter(this.filterSearch).subscribe(
       response => {
 
         this.filterSearch.pagination = response.pagination;
         this.filterSearch.resultado = response.resultado;
         this.list_result = response.resultado;
+        
       }, err => {
         console.log(err);
       }
     )
   }
 
-  // --------- EDIT ELEMENT ------------- \\
+  // --------- DELETE ELEMENT ------------- \\
   coreDelete(item: any) {
     this.hotelesService.delete(item).subscribe(
       response => {
-        this.list_result = response //.result
+        this.coreSearch()
       }, err => {
 
       }
@@ -106,10 +99,8 @@ export class ListHotelesComponent extends BaseComponents {
   dtoUserSession: any;
   loads_storage() {
     if (isPlatformBrowser(this.platformId)) {
-      //this.dtoSelected = JSON.parse(localStorage.getItem('dtoSelected'))
       this.dtoSelected = JSON.parse(sessionStorage.getItem('AuthenticationMisPueblitosAdmin'))
-      this.filterSearch.user = 1;
-      console.log("this.dtoSelected", this.dtoSelected);
+      this.filterSearch.user = 1;      
 
     }
   }

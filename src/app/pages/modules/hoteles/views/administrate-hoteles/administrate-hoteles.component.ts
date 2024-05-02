@@ -20,6 +20,8 @@ import { McInfoAdicionalComponent } from '../../../../shared/global-components/m
 import { McInfoAdicionalService } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.service';
 import { HotelDetailService } from '../../services/HotelDetailService';
 import { InfoAdicionalService } from '../../services/InfoAdicionalService';
+import { ToastService } from '../../../../shared/global-components/toast/toast.service';
+import { LoadingService } from '../../../../shared/global-components/loadings/loading-service.service';
 
 @Component({
   selector: 'app-administrate-hoteles',
@@ -47,13 +49,16 @@ export class AdministrateHotelesComponent extends BaseComponents {
     private redesSocialesService: RedesSocialesService,
     private mcInfoAdicionalService: McInfoAdicionalService,
     private hotelDetailService: HotelDetailService,
-    private infoAdicionalService: InfoAdicionalService
+    private infoAdicionalService: InfoAdicionalService,
+    private toastService: ToastService,
+    private loading: LoadingService,
   ) {
     super();
   }
 
   ngOnInit() {
     this.general_loads();
+
   }
 
   general_loads() {
@@ -80,7 +85,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
 
   handleResponseModal(event) {
     console.log('event', event);
-    if(event){
+    if (event) {
       this.HospedajeForm.hotelDetalle.fotos.gallery.push(event.url);
     }
   }
@@ -119,24 +124,43 @@ export class AdministrateHotelesComponent extends BaseComponents {
   // ---------------- dto HOTELES VALUE ----------- \\
   HospedajeForm: DtoHoteles = new DtoHoteles();
   coreRegister() {
+    this.loading.show()
     this.hotelesService.create(this.HospedajeForm).subscribe(
       (response) => {
-        alert('Registrado');
-        console.log(response);
+        this.loading.hide()
+        this.HospedajeForm = response;
+
+        this.toastService.addToast({
+          type: 'success',
+          message: 'Registrado Correctamente'
+        });
       },
       (err) => {
-        console.log(err);
+        this.loading.hide()
+        this.toastService.addToast({
+          type: 'danger',
+          message: 'Error al registrar'
+        });
       }
     );
   }
 
   coreUpdate() {
+    this.loading.show()
     this.hotelesService.update(this.HospedajeForm).subscribe(
       (response) => {
-        alert('Actualizado');
+        this.loading.hide()
+        this.toastService.addToast({
+          type: 'success',
+          message: 'Actualizado Correctamente'
+        });
       },
       (err) => {
-        alert('Error' + err);
+        this.loading.hide()
+        this.toastService.addToast({
+          type: 'danger',
+          message: 'Error al Actualizar'
+        });
       }
     );
   }
@@ -151,7 +175,7 @@ export class AdministrateHotelesComponent extends BaseComponents {
     };
     this.selectorFotoNegocio.activateModal(data);
   }
-  coreUploadFoto(event: any) {}
+  coreUploadFoto(event: any) { }
 
   // ---------------- UPDATES ---------------- \\
   create_nameRoute(item: any) {
@@ -233,14 +257,14 @@ export class AdministrateHotelesComponent extends BaseComponents {
           tipo == 'celular'
             ? this.HospedajeForm.celular
             : tipo == 'direccion'
-            ? this.HospedajeForm.direccion
-            : this.HospedajeForm.correo,
+              ? this.HospedajeForm.direccion
+              : this.HospedajeForm.correo,
         data:
           tipo == 'celular'
             ? { tipo, valor: this.HospedajeForm.celular }
             : tipo == 'direccion'
-            ? { tipo, valor: this.HospedajeForm.direccion }
-            : { tipo, valor: this.HospedajeForm.correo },
+              ? { tipo, valor: this.HospedajeForm.direccion }
+              : { tipo, valor: this.HospedajeForm.correo },
       },
     };
     this.mcContactosNegociosService.activateModal(data);
