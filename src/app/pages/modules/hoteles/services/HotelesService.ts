@@ -15,11 +15,11 @@ export class HotelesService {
         private http: HttpClient,
     ) { }
 
-    /* get_list(): Observable<any> {
-        return this.http.get<any>(this.SERVER_HOTEL + '/list').pipe(
+    get_list(): Observable<any> {
+        return this.http.get<any>(this.SERVER_HOTEL).pipe(
             map((response) => { return response })
         );
-    } */
+    }
 
     get_list_filter(filter: FilterHotelesDto): Observable<any> {
         return this.http.post<any>(this.SERVER_HOTEL + '/list-filter', filter).pipe(

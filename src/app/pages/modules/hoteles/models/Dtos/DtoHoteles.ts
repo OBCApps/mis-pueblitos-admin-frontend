@@ -6,6 +6,7 @@ export class DtoHoteles {
   nombre: string;
   precios: number;
   tipo: string;
+  plan: number;
   servicios: DtoMCServicesNegocio[];
   lugar: string;
   ubicacion: string;

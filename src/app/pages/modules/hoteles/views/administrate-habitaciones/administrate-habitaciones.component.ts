@@ -9,6 +9,8 @@ import { SelectorServicesNegocioComponent } from '../../../../shared/global-comp
 import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
 import { SelectorFotoNegocioComponent } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.component';
 import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
+import { HotelesService } from '../../services/HotelesService';
+import { FilterHotelesDto } from '../../models/Filters/FilterHotelesDto';
 
 @Component({
   selector: 'app-administrate-habitaciones',
@@ -27,6 +29,7 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     private habitacionService: HabitacionService,
+    private hotelesService: HotelesService,
     private selectorServicesNegocio: SelectorServicesNegocio,
     private selectorFotoNegocio: SelectorFotoNegocioService,
   ) {
@@ -39,6 +42,7 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
 
   general_loads() {
     this.loads_storage();
+    this.getAllHoteles();
   }
 
   // ------------- LOADS ------------- \\
@@ -141,6 +145,19 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
       },
     };
     this.selectorServicesNegocio.activateModal(data);
+  }
+  list_hoteles: any[] = [];
+  getAllHoteles(){
+    const temp=new FilterHotelesDto();
+    this.hotelesService.get_list().subscribe(
+      (response) => {
+        console.log('response', response);
+        this.list_hoteles = response;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   handleServiceNegocio(event: any) {
