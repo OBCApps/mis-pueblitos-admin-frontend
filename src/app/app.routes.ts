@@ -6,6 +6,8 @@ import path from 'path';
 import { AdministrateHotelesComponent } from './pages/modules/hoteles/views/administrate-hoteles/administrate-hoteles.component';
 import { ListHabitacionesComponent } from './pages/modules/hoteles/views/list-habitaciones/list-habitaciones.component';
 import { AdministrateHabitacionesComponent } from './pages/modules/hoteles/views/administrate-habitaciones/administrate-habitaciones.component';
+import { ListRestaurantesComponent } from './pages/modules/hoteles/views/list-restaurantes/list-restaurantes.component';
+import { AdministrateRestaurantesComponent } from './pages/modules/hoteles/views/administrate-restaurantes/administrate-restaurantes.component';
 
 export const routes: Routes = [
     {
@@ -33,6 +35,13 @@ export const routes: Routes = [
                     { path: 'list', component: ListHabitacionesComponent },
                     { path: 'administrate', component: AdministrateHabitacionesComponent }
                 ]
+            },
+            {
+              path: 'restaurantes',
+              children: [
+                  { path: 'list', component: ListRestaurantesComponent },
+                  { path: 'administrate', component: AdministrateRestaurantesComponent }
+              ]
             }
         ]
     },
