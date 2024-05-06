@@ -61,6 +61,10 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
     }
   }
 
+  getKeys(obj: any) {
+    return Object.keys(obj);
+  }
+
   coreSearchById(data: any) {
     this.habitacionService.get_by_id(data.id).subscribe(
       (response) => {

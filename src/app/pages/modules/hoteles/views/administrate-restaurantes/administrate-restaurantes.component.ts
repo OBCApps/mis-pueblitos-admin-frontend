@@ -13,6 +13,8 @@ import { HotelesService } from '../../services/HotelesService';
 import { FilterHotelesDto } from '../../models/Filters/FilterHotelesDto';
 import { DtoRestaurante } from '../../models/Dtos/DtoRestaurante';
 import { RestauranteService } from '../../services/RestauranteService';
+import { McHoraAtencionComponent } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.component';
+import { McHoraAtencionService } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.service';
 
 @Component({
   selector: 'app-administrate-restaurantes',
@@ -22,6 +24,7 @@ import { RestauranteService } from '../../services/RestauranteService';
     LowerCasePipe,
     SelectorServicesNegocioComponent,
     SelectorFotoNegocioComponent,
+    McHoraAtencionComponent,
   ],
   templateUrl: './administrate-restaurantes.component.html',
   styleUrl: './administrate-restaurantes.component.scss',
@@ -34,7 +37,8 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     private hotelesService: HotelesService,
     private restauranteService: RestauranteService,
     private selectorServicesNegocio: SelectorServicesNegocio,
-    private selectorFotoNegocio: SelectorFotoNegocioService,
+    private selectorHoraAtencion: McHoraAtencionService,
+    private selectorFotoNegocio: SelectorFotoNegocioService
   ) {
     super();
   }
@@ -54,7 +58,9 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   loads_storage() {
     if (isPlatformBrowser(this.platformId)) {
       this.dtoSelected = JSON.parse(localStorage.getItem('dtoSelected'));
-      this.dtoUserSession = JSON.parse(sessionStorage.getItem('AuthenticationMisPueblitosAdmin'));
+      this.dtoUserSession = JSON.parse(
+        sessionStorage.getItem('AuthenticationMisPueblitosAdmin')
+      );
 
       if (this.dtoSelected.option == 'EDIT') {
         this.coreSearchById(this.dtoSelected.data);
@@ -62,6 +68,10 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
         this.HabitacionForm = new DtoRestaurante();
       }
     }
+  }
+
+  getKeys(obj: any) {
+    return Object.keys(obj);
   }
 
   coreSearchById(data: any) {
@@ -149,9 +159,36 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     };
     this.selectorServicesNegocio.activateModal(data);
   }
+
+  addHoraAtencionNegocio() {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'REST',
+        method: 'CREATE',
+        dataNegocio: this.HabitacionForm,
+        data: null,
+      },
+    };
+    this.selectorHoraAtencion.activateModal(data);
+  }
+
+  editHoraAtencionNegocio(dia: string, rangoHoras: string) {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'REST',
+        method: 'UPDATE',
+        dataNegocio: this.HabitacionForm,
+        data: {id:"",dia,rangoHoras},
+      },
+    };
+    this.selectorHoraAtencion.activateModal(data);
+  }
+
   list_hoteles: any[] = [];
-  getAllHoteles(){
-    const temp=new FilterHotelesDto();
+  getAllHoteles() {
+    const temp = new FilterHotelesDto();
     this.hotelesService.get_list().subscribe(
       (response) => {
         console.log('response', response);

@@ -4,9 +4,9 @@ export class DtoRestaurante {
   id: string;
   nombre: string;
   horaAtencion: {
-    Domingos: string;
-    Sábados: string;
     'Lunes - Viernes': string;
+    Sábados: string;
+    Domingos: string;
   };
   tagHora: string;
   tags: string;
