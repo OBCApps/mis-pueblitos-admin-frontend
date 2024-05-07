@@ -15,6 +15,11 @@ import { DtoRestaurante } from '../../models/Dtos/DtoRestaurante';
 import { RestauranteService } from '../../services/RestauranteService';
 import { McHoraAtencionComponent } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.component';
 import { McHoraAtencionService } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.service';
+import { McInfoAdicionalComponent } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.component';
+import { McInfoAdicionalService } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.service';
+import { McRedesSocialesComponent } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.component';
+import { McRedesSocialesService } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.service';
+import { RedesSocialesService } from '../../services/RedesSocialesService';
 
 @Component({
   selector: 'app-administrate-restaurantes',
@@ -25,6 +30,8 @@ import { McHoraAtencionService } from '../../../../shared/global-components/moda
     SelectorServicesNegocioComponent,
     SelectorFotoNegocioComponent,
     McHoraAtencionComponent,
+    McInfoAdicionalComponent,
+    McRedesSocialesComponent,
   ],
   templateUrl: './administrate-restaurantes.component.html',
   styleUrl: './administrate-restaurantes.component.scss',
@@ -38,7 +45,10 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     private restauranteService: RestauranteService,
     private selectorServicesNegocio: SelectorServicesNegocio,
     private selectorHoraAtencion: McHoraAtencionService,
-    private selectorFotoNegocio: SelectorFotoNegocioService
+    private selectorFotoNegocio: SelectorFotoNegocioService,
+    private selectorInfoAdicional: McInfoAdicionalService,
+    private mcRedesSocialesService: McRedesSocialesService,
+    private redesSocialesService: RedesSocialesService,
   ) {
     super();
   }
@@ -121,6 +131,71 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     }
   }
 
+
+  addRedesSociales() {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'REST',
+        method: 'CREATE',
+        dataNegocio: {
+          nombre: this.HabitacionForm.nombre,
+          id: this.HabitacionForm.id,
+          hotelDetalleId: null,
+          restauranteId: this.HabitacionForm.id,
+      },
+        data: null,
+      },
+    };
+    this.mcRedesSocialesService.activateModal(data);
+  }
+
+  editRedesSociales(item: any) {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'REST',
+        method: 'UPDATE',
+        dataNegocio: {
+          nombre: this.HabitacionForm.nombre,
+          id: this.HabitacionForm.id,
+          hotelDetalleId: null,
+          restauranteId: this.HabitacionForm.id,
+      },
+        data: item,
+      },
+    };
+    this.mcRedesSocialesService.activateModal(data);
+  }
+  deleteRedesSociales(item: any) {
+    this.redesSocialesService.delete(item).subscribe(
+      (_) => {
+        this.HabitacionForm.mc_redes_sociales = this.HabitacionForm.mc_redes_sociales.filter(
+          (red) => red.id !== item.id
+        );
+      },
+      (err) => {
+        alert('Error' + err);
+      }
+    );
+  }
+
+  handleResponseRedesSociales(event) {
+    console.log('event', event);
+    if (event['action-model'] == 'update') {
+      this.HabitacionForm.mc_redes_sociales = this.HabitacionForm.mc_redes_sociales.map(
+        (item) => {
+          if (item.id === event.id) {
+            return event;
+          }
+          return item;
+        }
+      );
+    } else {
+      this.HabitacionForm.mc_redes_sociales.push(event);
+    }
+  }
+
   addFotoNegocio() {
     const data = {
       option: 'open',
@@ -172,6 +247,55 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     };
     this.selectorHoraAtencion.activateModal(data);
   }
+  addInfoAdicional(){
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'REST',
+        method: 'CREATE',
+        dataNegocio: this.HabitacionForm,
+        data: null,
+      },
+    };
+    this.selectorInfoAdicional.activateModal(data);
+  }
+
+  editInfoAdicional(nombre: string, descripcion: string) {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'REST',
+        method: 'UPDATE',
+        dataNegocio: this.HabitacionForm,
+        data: {id:"",nombre,descripcion},
+      },
+    };
+    this.selectorInfoAdicional.activateModal(data);
+  }
+
+  eliminarInfoAdicional(item){
+    const temp = this.HabitacionForm.infoAdicional;
+    this.getKeys(this.HabitacionForm.infoAdicional).map((key) => {
+      if (key === item) {
+        delete this.HabitacionForm.infoAdicional[key];
+      }
+    });
+    this.restauranteService.update(this.HabitacionForm).subscribe(
+      (response) => {
+        alert('Se eliminó correctamente');
+        this.HabitacionForm.infoAdicional = response.infoAdicional;
+      },
+      (err) => {
+        console.log(err);
+        alert('Error al eliminar, vuelva a intentarlo');
+        this.HabitacionForm.infoAdicional = temp;
+      }
+    );
+  }
+
+  handleInfoAdicional(event){
+    this.HabitacionForm.infoAdicional = event;
+  }
 
   editHoraAtencionNegocio(dia: string, rangoHoras: string) {
     const data = {
@@ -184,6 +308,27 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       },
     };
     this.selectorHoraAtencion.activateModal(data);
+  }
+
+  eliminarHoraAtencionNegocio(dia: string) {
+    const temp = this.HabitacionForm.horaAtencion[dia];
+    this.getKeys(this.HabitacionForm.horaAtencion).map((key) => {
+      if (key === dia) {
+        delete this.HabitacionForm.horaAtencion[key];
+      }
+    });
+
+    this.restauranteService.update(this.HabitacionForm).subscribe(
+      (response) => {
+        alert('Se eliminó correctamente');
+        this.HabitacionForm.horaAtencion = response.horaAtencion;
+      },
+      (err) => {
+        console.log(err);
+        alert('Error al eliminar, vuelva a intentarlo');
+        this.HabitacionForm.horaAtencion[dia] = temp;
+      }
+    );
   }
 
   list_hoteles: any[] = [];
@@ -199,7 +344,9 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       }
     );
   }
-
+  handleHoraAtencion(event: any){
+    this.HabitacionForm.horaAtencion = event;
+  }
   handleServiceNegocio(event: any) {
     console.log('evento', event.selected);
     if (this.existService(event.selected.id)) {

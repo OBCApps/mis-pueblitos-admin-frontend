@@ -43,6 +43,16 @@ export class RestauranteService {
     );
   }
 
+  edit_horaAtencion(id: string, data: any){
+    return this.http.post<DtoRestaurante>(this.SERVER_REST + '/editHoraAtencion/' + id,data).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+
+
   get_list_filter(filter: FilterRestauranteDto): Observable<any> {
     return this.http
       .post<any>(this.SERVER_REST + '/list-filter', filter)

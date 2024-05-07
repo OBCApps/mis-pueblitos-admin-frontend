@@ -19,6 +19,7 @@ class DataNegocio {
     nombre?: string
     id: string
     hotelDetalleId: string
+    restauranteId: string
 }
 
 @Component({
@@ -82,7 +83,8 @@ export class McRedesSocialesComponent {
     // ----------- IMPLEMENTAR EL API
     coreRegister() {
       this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
-      this.modalService.uploadFoto(this.dtoValue).subscribe(
+      this.dtoValue.restauranteId = this.valueInput.dataNegocio.restauranteId;
+      this.modalService.uploadFoto(this.dtoValue,this.valueInput.type).subscribe(
         (response) => {
           console.log('response', response);
           response["action-model"]="create";
@@ -99,7 +101,8 @@ export class McRedesSocialesComponent {
 
     coreUpdate() {
       this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
-      this.modalService.updateRedSocial(this.dtoValue.id, this.dtoValue).subscribe(
+      this.dtoValue.restauranteId = this.valueInput.dataNegocio.restauranteId;
+      this.modalService.updateRedSocial(this.dtoValue.id, this.dtoValue,this.valueInput.type).subscribe(
         (response) => {
           console.log('response', response);
           response["action-model"]="update";

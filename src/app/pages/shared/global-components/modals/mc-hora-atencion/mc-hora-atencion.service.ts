@@ -16,7 +16,7 @@ export class McHoraAtencionService {
     this.modalFotoService.next(option);
   }
 
-  private API_SERVER_ADMIN_FOTO = API_SERVICE_ADMIN + '/hoteles';
+  private API_SERVER_ADMIN_FOTO = API_SERVICE_ADMIN + '/restaurante';
 
   public uploadFoto(id: string, data: any): Observable<any> {
     const { celular, direccion, correo } = data;
@@ -43,9 +43,9 @@ export class McHoraAtencionService {
       );
   }
 
-  public updateInfoAdicional(data: any): Observable<any> {
+  public updateHoraAtencion(id,data: any): Observable<any> {
     return this.http
-      .patch<any>(API_SERVICE_ADMIN + '/mc-info-adicional/' + data.id, data)
+      .patch<any>(this.API_SERVER_ADMIN_FOTO  + '/editHoraAtencion/' + id, data)
       .pipe(
         map((response) => {
           return response;

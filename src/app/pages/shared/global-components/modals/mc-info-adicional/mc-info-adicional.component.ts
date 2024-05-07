@@ -62,7 +62,11 @@ export class McInfoAdicionalComponent {
   ) {
     this.modalService.modalState$.subscribe((option) => {
       this.valueInput = option.valueInput;
-      console.log('this.valueInput', this.valueInput,this.valueInput.dataNegocio.nombre);
+      console.log(
+        'this.valueInput',
+        this.valueInput,
+        this.valueInput.dataNegocio.nombre
+      );
       if (this.valueInput.data) {
         this.dtoValue = { ...this.valueInput.data };
         console.log('this.dtoValue', this.dtoValue);
@@ -89,24 +93,44 @@ export class McInfoAdicionalComponent {
   // ----------- PARA CREAR ESTOS MODELOS YA TENEMOS LOS DATOS DEL NEGOCIO Y LOS DATOS A AGREGAR
   // ----------- IMPLEMENTAR EL API
   coreRegister() {
-    console.log("dto",this.dtoValue);
-    this.modalService.addInfoAdicional(this.dtoValue).subscribe(
-      (response) => {
-        this.modalService.addInfoAdicionalHotel(this.valueInput.dataNegocio.hotelDetalleId, response).subscribe(
+    console.log('dto', this.dtoValue);
+    if (this.valueInput.type == 'REST') {
+      const temp = this.dtoValue;
+      delete temp.id;
+      this.modalService
+        .updateInfoAdicionalRest(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
           (response) => {
-            this.responseModal.emit(response);
+            this.responseModal.emit(response.infoAdicional);
             this.Modal.hide();
           },
           (err) => {
             console.log(err);
           }
         );
-
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    } else {
+      this.modalService.addInfoAdicional(this.dtoValue).subscribe(
+        (response) => {
+          this.modalService
+            .addInfoAdicionalHotel(
+              this.valueInput.dataNegocio.hotelDetalleId,
+              response
+            )
+            .subscribe(
+              (response) => {
+                this.responseModal.emit(response);
+                this.Modal.hide();
+              },
+              (err) => {
+                console.log(err);
+              }
+            );
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
     /*this.modalService.uploadFoto(this.valueInput.dataNegocio.hotelDetalleId, this.list_contactos).subscribe(
         (response) => {
           console.log('response', response);
@@ -118,16 +142,32 @@ export class McInfoAdicionalComponent {
   }
 
   coreUpdate() {
-    this.modalService.updateInfoAdicional(this.dtoValue).subscribe(
-      (response) => {
-        console.log('response', response);
-        this.responseModal.emit(response);
-        this.Modal.hide();
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    if (this.valueInput.type == 'REST') {
+      const temp = this.dtoValue;
+      delete temp.id;
+      this.modalService
+        .updateInfoAdicionalRest(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
+          (response) => {
+            this.responseModal.emit(response.infoAdicional);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      this.modalService.updateInfoAdicional(this.dtoValue).subscribe(
+        (response) => {
+          console.log('response', response);
+          this.responseModal.emit(response);
+          this.Modal.hide();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
   }
 
   // ------------------- FUNCIONALIDAD CREAR MODAL -------------------- \\

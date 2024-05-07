@@ -89,6 +89,15 @@ export class McHoraAtencionComponent {
   }
 
   coreUpdate() {
+    this.modalService.updateHoraAtencion(this.valueInput.dataNegocio.id, this.dtoValue).subscribe((response) => {
+      console.log('response', response);
+      this.responseModal.emit(response.horaAtencion);
+        this.Modal.hide();
+    }, (error) => {
+      console.log('error', error);
+      alert('Error al actualizar la hora de atención');
+    }
+    );
   }
 
   // ------------------- FUNCIONALIDAD CREAR MODAL -------------------- \\

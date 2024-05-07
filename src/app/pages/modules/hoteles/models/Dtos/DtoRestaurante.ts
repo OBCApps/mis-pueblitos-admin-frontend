@@ -1,3 +1,4 @@
+import { DtoRedesSociales } from './DtoHotelesDetalle';
 import { DtoMCServicesNegocio } from './DtoMCServicesNegocio';
 
 export class DtoRestaurante {
@@ -28,7 +29,7 @@ export class DtoRestaurante {
     instagram: string;
   };
   descripcion: string;
-  infoAdicional: string[];
+  infoAdicional: any;
   name_route: string;
   plan: number;
   ambiente: string;
@@ -47,4 +48,7 @@ export class DtoRestaurante {
     }
   ];
   mc_servicios_rest: DtoMCServicesNegocio[];
+  mc_redes_sociales: DtoRedesSociales[];
 }
+
+
