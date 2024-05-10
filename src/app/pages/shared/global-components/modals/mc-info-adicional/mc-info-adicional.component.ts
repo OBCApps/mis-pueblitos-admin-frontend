@@ -42,6 +42,7 @@ class DataInfo {
   id: string;
   nombre: string;
   descripcion: string;
+  beforeNombre: string;
 }
 
 @Component({
@@ -94,7 +95,21 @@ export class McInfoAdicionalComponent {
   // ----------- IMPLEMENTAR EL API
   coreRegister() {
     console.log('dto', this.dtoValue);
-    if (this.valueInput.type == 'REST') {
+    const temp = this.dtoValue;
+    delete temp.id;
+    if(this.valueInput.type=="HAB"){
+      this.modalService.updateInfoAdicionalHab(this.valueInput.dataNegocio.id, temp).subscribe(
+        (response) => {
+          console.log('response', response);
+          this.responseModal.emit(response.infoAdicional);
+          this.Modal.hide();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+    else if (this.valueInput.type == 'REST') {
       const temp = this.dtoValue;
       delete temp.id;
       this.modalService
@@ -142,7 +157,21 @@ export class McInfoAdicionalComponent {
   }
 
   coreUpdate() {
-    if (this.valueInput.type == 'REST') {
+    if(this.valueInput.type=='HAB'){
+      const temp = this.dtoValue;
+      delete temp.id;
+
+      this.modalService.updateInfoAdicionalHab(this.valueInput.dataNegocio.id, temp).subscribe(
+        (response) => {
+          this.responseModal.emit(response.infoAdicional);
+          this.Modal.hide();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+    else if (this.valueInput.type == 'REST') {
       const temp = this.dtoValue;
       delete temp.id;
       this.modalService

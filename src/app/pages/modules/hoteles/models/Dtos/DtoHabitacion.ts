@@ -12,6 +12,7 @@ export class DtoHabitacion {
   camas: number;
   tipo: string;
   fotos: {gallery: string[],principal: string};
+  infoAdicional: any;
   hotelId: string;
   hotelNombre: string;
   estrellas: number;

@@ -11,6 +11,8 @@ import { SelectorFotoNegocioComponent } from '../../../../shared/global-componen
 import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
 import { HotelesService } from '../../services/HotelesService';
 import { FilterHotelesDto } from '../../models/Filters/FilterHotelesDto';
+import { McInfoAdicionalComponent } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.component';
+import { McInfoAdicionalService } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.service';
 
 @Component({
   selector: 'app-administrate-habitaciones',
@@ -20,6 +22,7 @@ import { FilterHotelesDto } from '../../models/Filters/FilterHotelesDto';
     LowerCasePipe,
     SelectorServicesNegocioComponent,
     SelectorFotoNegocioComponent,
+    McInfoAdicionalComponent,
   ],
   templateUrl: './administrate-habitaciones.component.html',
   styleUrl: './administrate-habitaciones.component.scss',
@@ -30,8 +33,9 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
     private router: Router,
     private habitacionService: HabitacionService,
     private hotelesService: HotelesService,
+    private selectorInfoAdicional: McInfoAdicionalService,
     private selectorServicesNegocio: SelectorServicesNegocio,
-    private selectorFotoNegocio: SelectorFotoNegocioService,
+    private selectorFotoNegocio: SelectorFotoNegocioService
   ) {
     super();
   }
@@ -51,7 +55,9 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
   loads_storage() {
     if (isPlatformBrowser(this.platformId)) {
       this.dtoSelected = JSON.parse(localStorage.getItem('dtoSelected'));
-      this.dtoUserSession = JSON.parse(sessionStorage.getItem('AuthenticationMisPueblitosAdmin'));
+      this.dtoUserSession = JSON.parse(
+        sessionStorage.getItem('AuthenticationMisPueblitosAdmin')
+      );
 
       if (this.dtoSelected.option == 'EDIT') {
         this.coreSearchById(this.dtoSelected.data);
@@ -150,9 +156,60 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
     };
     this.selectorServicesNegocio.activateModal(data);
   }
+
+  handleInfoAdicional(event) {
+    this.HabitacionForm.infoAdicional = event;
+  }
+
+  addInfoAdicional() {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'HAB',
+        method: 'CREATE',
+        dataNegocio: this.HabitacionForm,
+        data: null,
+      },
+    };
+    this.selectorInfoAdicional.activateModal(data);
+  }
+
+  editInfoAdicional(nombre: string, descripcion: string) {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'HAB',
+        method: 'UPDATE',
+        dataNegocio: this.HabitacionForm,
+        data: { id: '', nombre, descripcion, beforeNombre: nombre },
+      },
+    };
+    this.selectorInfoAdicional.activateModal(data);
+  }
+
+  eliminarInfoAdicional(item) {
+    const temp = this.HabitacionForm.infoAdicional;
+    this.getKeys(this.HabitacionForm.infoAdicional).map((key) => {
+      if (key === item) {
+        delete this.HabitacionForm.infoAdicional[key];
+      }
+    });
+    this.habitacionService.update(this.HabitacionForm).subscribe(
+      (response) => {
+        alert('Se eliminó correctamente');
+        this.HabitacionForm.infoAdicional = response.infoAdicional;
+      },
+      (err) => {
+        console.log(err);
+        alert('Error al eliminar, vuelva a intentarlo');
+        this.HabitacionForm.infoAdicional = temp;
+      }
+    );
+  }
+
   list_hoteles: any[] = [];
-  getAllHoteles(){
-    const temp=new FilterHotelesDto();
+  getAllHoteles() {
+    const temp = new FilterHotelesDto();
     this.hotelesService.get_list().subscribe(
       (response) => {
         console.log('response', response);
