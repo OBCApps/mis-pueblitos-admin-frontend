@@ -6,8 +6,10 @@ import path from 'path';
 import { AdministrateHotelesComponent } from './pages/modules/hoteles/views/administrate-hoteles/administrate-hoteles.component';
 import { ListHabitacionesComponent } from './pages/modules/hoteles/views/list-habitaciones/list-habitaciones.component';
 import { AdministrateHabitacionesComponent } from './pages/modules/hoteles/views/administrate-habitaciones/administrate-habitaciones.component';
-import { ListRestaurantesComponent } from './pages/modules/hoteles/views/list-restaurantes/list-restaurantes.component';
-import { AdministrateRestaurantesComponent } from './pages/modules/hoteles/views/administrate-restaurantes/administrate-restaurantes.component';
+import { ListRestaurantesComponent } from './pages/modules/restaurantes/views/list-restaurantes/list-restaurantes.component';
+import { AdministrateRestaurantesComponent } from './pages/modules/restaurantes/views/administrate-restaurantes/administrate-restaurantes.component';
+import { ListDepartamentoComponent } from './pages/modules/departamento/views/list-departamentos/departamento.component';
+import { AdministrateDepartamentoComponent } from './pages/modules/departamento/views/administrate-departamentos/edit-departamento.component';
 
 export const routes: Routes = [
     {
@@ -41,6 +43,13 @@ export const routes: Routes = [
               children: [
                   { path: 'list', component: ListRestaurantesComponent },
                   { path: 'administrate', component: AdministrateRestaurantesComponent }
+              ]
+            },
+            {
+              path: 'departamentos',
+              children: [
+                  { path: 'list', component: ListDepartamentoComponent },
+                  { path: 'administrate', component: AdministrateDepartamentoComponent }
               ]
             }
         ]

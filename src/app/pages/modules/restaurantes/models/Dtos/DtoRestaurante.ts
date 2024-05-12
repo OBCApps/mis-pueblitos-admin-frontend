@@ -1,5 +1,5 @@
-import { DtoRedesSociales } from './DtoHotelesDetalle';
-import { DtoMCServicesNegocio } from './DtoMCServicesNegocio';
+import { DtoRedesSociales } from '../../../hoteles/models/Dtos/DtoHotelesDetalle';
+import { DtoMCServicesNegocio } from '../../../hoteles/models/Dtos/DtoMCServicesNegocio';
 
 export class DtoRestaurante {
   id: string;

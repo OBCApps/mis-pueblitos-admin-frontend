@@ -3,14 +3,14 @@ import { BaseComponents } from '../../../../shared/global-components/BaseCompone
 import { FormsModule } from '@angular/forms';
 import { LowerCasePipe, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-import { HabitacionService } from '../../services/HabitacionService';
-import { DtoHabitacion } from '../../models/Dtos/DtoHabitacion';
+import { HabitacionService } from '../../../hoteles/services/HabitacionService';
+import { DtoHabitacion } from '../../../hoteles/models/Dtos/DtoHabitacion';
 import { SelectorServicesNegocioComponent } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
 import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
 import { SelectorFotoNegocioComponent } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.component';
 import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
-import { HotelesService } from '../../services/HotelesService';
-import { FilterHotelesDto } from '../../models/Filters/FilterHotelesDto';
+import { HotelesService } from '../../../hoteles/services/HotelesService';
+import { FilterHotelesDto } from '../../../hoteles/models/Filters/FilterHotelesDto';
 import { DtoRestaurante } from '../../models/Dtos/DtoRestaurante';
 import { RestauranteService } from '../../services/RestauranteService';
 import { McHoraAtencionComponent } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.component';
@@ -19,7 +19,7 @@ import { McInfoAdicionalComponent } from '../../../../shared/global-components/m
 import { McInfoAdicionalService } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.service';
 import { McRedesSocialesComponent } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.component';
 import { McRedesSocialesService } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.service';
-import { RedesSocialesService } from '../../services/RedesSocialesService';
+import { RedesSocialesService } from '../../../hoteles/services/RedesSocialesService';
 
 @Component({
   selector: 'app-administrate-restaurantes',

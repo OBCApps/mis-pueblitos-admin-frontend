@@ -1,0 +1,122 @@
+<div class="relative overflow-x-auto sm:rounded-lg">
+  <div class="px-3">
+
+  </div>
+
+  <!-- // -------- FILTERS OF SEARCH -------- \\  -->
+  <!--<div class="px-3 m-0">
+    <a class=" block w-full p-4 m-0 bg-white border border-gray-200 rounded-lg shadow ">
+      <form [formGroup]="searchValueForm" class="grid grid-cols-5 gap-4 ">
+
+        <div class="relative z-0 mb-5 group">
+          <label [class]="label_class">País </label>
+          <select [class]="input_class" formControlName="pais">
+            <option *ngIf="list_paises.length > 0" value=''></option>
+            <option *ngFor="let item of list_paises" [value]="item.idPais"> {{item.nombrePais}}
+            </option>
+
+          </select>
+        </div>
+
+      </form>
+      <div class="global-center-end">
+        <button type="submit" (click)="goToCreate()"
+          class="mx-2 inline-flex  items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <svg class="h-5 w-5 text-white mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+          </svg>
+
+          Agregar
+        </button>
+        <button type="submit" (click)="search_entidad(searchValueForm.value)"
+          class="inline-flex  items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <svg class="h-5 w-5 text-white mx-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          Buscar
+        </button>
+      </div>
+
+    </a>
+  </div>-->
+
+  <br>
+
+
+  <div class="px-3 ">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
+        <tr>
+
+          <th scope="col" class="px-6 py-3">
+            <div class="flex items-center">
+              Nombre
+            </div>
+          </th>
+          <th scope="col" class="px-6 py-3">
+            <div class="flex items-center">
+              Descripción
+            </div>
+          </th>
+          <th scope="col" class="px-6 py-3">
+            <div class="flex items-center">
+              Foto
+            </div>
+          </th>
+
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Acción</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of list_representantes; track $index) {
+        <tr class="bg-white border-b ">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            {{item.nombre}}
+          </th>
+          <td class="px-6 py-4">
+            {{item.descripcion}}
+          </td>
+          <td class="px-6 py-4">
+            <img class="rounded-sm w-40 h-full object-cover" src="{{item.foto.url}}" alt="{{item.nombre}}">
+          </td>
+
+          <td class="px-6 py-4 text-right">
+            <a (click)="goToEdit(item)" class="font-medium text-blue-600 hover:underline">Ver </a>
+            <a (click)="deleteItem(item)" class="font-medium text-blue-600 hover:underline">/ Eliminar</a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="px-3  ">
+    <div class="global-center-end mt-2">
+      <!-- Anterior Button -->
+      <a (click)="continuePagination('preview')"
+        class="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
+        <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13 5H1m0 0 4 4M1 5l4-4" />
+        </svg>
+        Anterior
+      </a>
+      <a (click)="continuePagination('next')"
+        class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
+        Siguiente
+        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+</div>

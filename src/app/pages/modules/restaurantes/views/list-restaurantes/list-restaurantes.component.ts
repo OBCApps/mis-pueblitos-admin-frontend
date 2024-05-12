@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { FilterRestauranteDto } from '../../models/Filters/FilterRestauranteDto';
 import { FormsModule } from '@angular/forms';
-import { DtoHabitacion } from '../../models/Dtos/DtoHabitacion';
+import { DtoHabitacion } from '../../../hoteles/models/Dtos/DtoHabitacion';
 import { RestauranteService } from '../../services/RestauranteService';
 
 @Component({

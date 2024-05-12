@@ -1,0 +1,38 @@
+<div class="lg:flex lg:items-start lg:justify-between px-3">
+  <div class="block w-full mt-1 p-6">
+    <!--[formGroup]="addValueForm"-->
+    <form class="max-w-lg mx-auto">
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="text"  [class]="input_class" placeholder=" " required
+          autocomplete="nope" />
+        <label for="oficina" [class]="label_class">Nombre Departamento</label>
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <textarea id="message" rows="4" required autocomplete="nope" [class]="input_class"
+          placeholder=" "></textarea>
+        <label for="descripcion" [class]="label_class"> Descripción </label>
+      </div>
+      <div class="relative z-0 w-full mb-5 group">
+        <label class="block mb-2 text-sm font-medium text-gray-500" for="file_input">Upload file</label>
+        <input
+          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-transparent focus:outline-none"
+          id="file_input" type="file" required (change)="onFileSelected($event)" />
+      </div>
+      <div class="flex justify-center">
+        @if (dataLocalStorage.data.foto) {
+        <img class="relative z-0 h-60 mb-5 group" src="{{ dataLocalStorage.data.foto.url }}"
+          alt="{{ dataLocalStorage.data.nombre }}" />
+        }
+      </div>
+
+      @if(bool_search_api){
+      <div class="relative z-0 w-full mb-5 group">
+        <button type="button" (click)="nextPage()"
+          class="text-white bg-gray-800 w-full hover:bg-gray-700 focus:outline-none font-medium rounded-md text-sm px-5 py-2.5 text-center me-2 mb-2">
+          Guardar
+        </button>
+      </div>
+      }
+    </form>
+  </div>
+</div>
