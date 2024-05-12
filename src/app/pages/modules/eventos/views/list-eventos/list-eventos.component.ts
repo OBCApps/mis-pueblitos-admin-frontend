@@ -1,18 +1,18 @@
-import { DepartamentosService } from '../../services/departamentosService';
+import { EventoService } from './../../services/eventosService';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DtoDepartamento } from '../../models/Dtos/DtoDepartamento';
+import { DtoEvento, DtoEventos } from '../../models/DtoEventos';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { BaseComponents } from '../../../../shared/global-components/BaseComponents';
 
 @Component({
-  selector: 'list-app-departamento',
+  selector: 'app-list-eventos-representantes',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './departamento.component.html',
-  styleUrls: ['./departamento.component.scss'],
+  templateUrl: './list-eventos.component.html',
+  styleUrls: ['./list-eventos.component.scss'],
 })
-export class ListDepartamentoComponent extends BaseComponents {
+export class ListEventosComponent extends BaseComponents {
   // --------------- Diseño Formulario --------------- \\
   input_class: any =
     'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none border-gray-600  focus:outline-none focus:ring-0 focus:border-blue-600 peer';
@@ -23,29 +23,43 @@ export class ListDepartamentoComponent extends BaseComponents {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public router: Router,
-    private departamentosService: DepartamentosService,
+    private eventoService: EventoService,
+    private fb: FormBuilder,
   ) {
     super();
   }
 
   ngOnInit() {
+    this.search_representante({});
+    this.general_loads();
 
-    this.search_entidad({});
-    //this.general_loads();
+    this.transferedDataToNavar({ title: 'Listado de Firmantes' });
+  }
+  // ---------- CHANGE NAVAR ---------- \\
+  transferedDataToNavar(value: any): void {
+    console.log('CAMBIO');
   }
 
   // ---------- LOADS FILTERS EN LIST ---------- \\
-  general_loads() {}
+  general_loads() {
+    //this.load_empresas();
+    //this.load_entidades();
+    //this.load_tipo_firmantes();
+    //this.load_poder();
+    //this.load_estado_poder();
+  }
 
   // ---------- SEARCH ---------- \\
-
-  list_representantes: DtoDepartamento[] = [];
-  search_entidad(form: any) {
+  search_representante(form: any) {
+    console.log(form);
     this.list_representantes = [];
-    this.departamentosService.get_listado_departamentos().subscribe(
+    this.eventoService.get_listado_eventos().subscribe(
       (response: any) => {
         this.list_representantes = response;
         console.log(this.list_representantes);
+        if (this.list_representantes.length == 0) {
+          this.continuePagination('preview');
+        }
       },
       (err) => {
         console.log(err);
@@ -61,7 +75,8 @@ export class ListDepartamentoComponent extends BaseComponents {
       data: item,
     };
     localStorage.setItem('itemSelected', JSON.stringify(data));
-    this.router.navigate(['/admin/departamentos/administrate']);
+    this.transferedDataToNavar({ title: 'Editar Firmante' });
+    this.router.navigate(['/home/add-eventos']);
   }
 
   goToCreate() {
@@ -70,9 +85,23 @@ export class ListDepartamentoComponent extends BaseComponents {
       data: {},
     };
     localStorage.setItem('itemSelected', JSON.stringify(data));
-    this.router.navigate(['/home/add-departament']);
+    this.transferedDataToNavar({ title: 'Agregar Firmante' });
+    this.router.navigate(['/home/add-eventos']);
   }
-
+  cleanAll() {
+    /*const { page, pageSize } = this.searchValueForm.value;
+    this.searchValueForm.reset({
+      paisEmpresa: null,
+      banco: null,
+      empresa: null,
+      poder: null,
+      tipoFirmante: null,
+      estadoPoder: null,
+      page,
+      pageSize,
+    });*/
+    this.search_representante({});
+  }
   deleteItem(item: any) {
     /*const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -96,27 +125,28 @@ export class ListDepartamentoComponent extends BaseComponents {
       .then((result) => {
         if (result.isConfirmed) {
           this.loadingService.show();
-          this.departamentosService.delete_departamento(item.id).subscribe(
-            (response: any) => {
-              swalWithBootstrapButtons.fire({
-                title: 'Borrado!',
-                text: 'Se se elimino la empresa correctamente.',
-                icon: 'success',
-              });
+          this.representantesService.delete_representante(item.documentoIdentidad).subscribe(
+          (response: any) => {
+            swalWithBootstrapButtons.fire({
+              title: "Borrado!",
+              text: "El representante se elimino correctamente.",
+              icon: "success"
+            });
 
-              this.search_entidad(this.searchValueForm.value);
-              this.loadingService.hide();
-            },
-            (err) => {
-              Swal.fire({
-                title: '¡Error!',
-                text: 'Error al eliminar',
-                icon: 'error',
-              });
 
-              this.loadingService.hide();
-            }
-          );
+            this.search_representante(this.searchValueForm.value)
+            this.loadingService.hide();
+          },
+          (err) => {
+            Swal.fire({
+              title: '¡Error!',
+              text: 'Error al eliminar',
+              icon: 'error'
+            });
+
+            this.loadingService.hide();
+          }
+        );
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
@@ -130,15 +160,27 @@ export class ListDepartamentoComponent extends BaseComponents {
       const current = this.searchValueForm.get('page').value;
       if (current > 0) {
         this.searchValueForm.get('page').setValue(current - 1);
-        this.search_entidad(this.searchValueForm.value);
+        this.search_representante(this.searchValueForm.value);
       }
     } else if (value == 'next') {
       const current = this.searchValueForm.get('page').value;
 
       this.searchValueForm.get('page').setValue(current + 1);
-      this.search_entidad(this.searchValueForm.value);
+      this.search_representante(this.searchValueForm.value);
     }*/
   }
 
-  list_paises: any[] = [];
+  // ----------- CALL LOADS ------ \\
+  list_representantes: DtoEventos[] = [];
+  load_list_representantes() {
+    this.list_representantes = [];
+    this.eventoService.get_listado_eventos().subscribe(
+      (response: DtoEventos[]) => {
+        this.list_representantes = response;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 }

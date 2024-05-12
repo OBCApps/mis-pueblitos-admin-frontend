@@ -10,6 +10,8 @@ import { ListRestaurantesComponent } from './pages/modules/restaurantes/views/li
 import { AdministrateRestaurantesComponent } from './pages/modules/restaurantes/views/administrate-restaurantes/administrate-restaurantes.component';
 import { ListDepartamentoComponent } from './pages/modules/departamento/views/list-departamentos/departamento.component';
 import { AdministrateDepartamentoComponent } from './pages/modules/departamento/views/administrate-departamentos/edit-departamento.component';
+import { ListEventosComponent } from './pages/modules/eventos/views/list-eventos/list-eventos.component';
+import { ListSubEventosComponent } from './pages/modules/eventos/views/list-sub-eventos/list-sub-eventos.component';
 
 export const routes: Routes = [
     {
@@ -49,6 +51,20 @@ export const routes: Routes = [
               path: 'departamentos',
               children: [
                   { path: 'list', component: ListDepartamentoComponent },
+                  { path: 'administrate', component: AdministrateDepartamentoComponent }
+              ]
+            },
+            {
+              path: 'eventos',
+              children: [
+                  { path: 'list', component: ListEventosComponent },
+                  { path: 'administrate', component: AdministrateDepartamentoComponent }
+              ]
+            },
+            {
+              path: 'subeventos',
+              children: [
+                  { path: 'list', component: ListSubEventosComponent },
                   { path: 'administrate', component: AdministrateDepartamentoComponent }
               ]
             }

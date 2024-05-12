@@ -1,4 +1,4 @@
-import { DepartamentosService } from '../../services/departamentos.service';
+import { DepartamentosService } from '../../services/departamentosService';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { DtoDepartamento } from '../../models/Dtos/DtoDepartamento';
