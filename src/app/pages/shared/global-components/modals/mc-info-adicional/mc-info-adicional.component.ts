@@ -174,6 +174,7 @@ export class McInfoAdicionalComponent {
     else if (this.valueInput.type == 'REST') {
       const temp = this.dtoValue;
       delete temp.id;
+      console.log('temp', temp);
       this.modalService
         .updateInfoAdicionalRest(this.valueInput.dataNegocio.id, temp)
         .subscribe(

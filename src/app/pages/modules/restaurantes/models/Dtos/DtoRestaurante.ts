@@ -17,9 +17,7 @@ export class DtoRestaurante {
   mapa: string;
   fotos: {
     gallery: string[];
-    principal: {
-      url: string;
-    };
+    principal: string;
   };
   contactos: {
     gmail: string;

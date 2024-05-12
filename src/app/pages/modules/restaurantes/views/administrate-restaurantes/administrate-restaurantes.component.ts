@@ -3,8 +3,6 @@ import { BaseComponents } from '../../../../shared/global-components/BaseCompone
 import { FormsModule } from '@angular/forms';
 import { LowerCasePipe, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-import { HabitacionService } from '../../../hoteles/services/HabitacionService';
-import { DtoHabitacion } from '../../../hoteles/models/Dtos/DtoHabitacion';
 import { SelectorServicesNegocioComponent } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
 import { SelectorServicesNegocio } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.service';
 import { SelectorFotoNegocioComponent } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.component';
@@ -40,7 +38,6 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    private habitacionService: HabitacionService,
     private hotelesService: HotelesService,
     private restauranteService: RestauranteService,
     private selectorServicesNegocio: SelectorServicesNegocio,
@@ -48,7 +45,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     private selectorFotoNegocio: SelectorFotoNegocioService,
     private selectorInfoAdicional: McInfoAdicionalService,
     private mcRedesSocialesService: McRedesSocialesService,
-    private redesSocialesService: RedesSocialesService,
+    private redesSocialesService: RedesSocialesService
   ) {
     super();
   }
@@ -89,8 +86,6 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       (response) => {
         console.log('response', response);
         this.HabitacionForm = response;
-        //this.getRedesSociales();
-        //this.getInfoAdicional();
       },
       (err) => {
         console.log(err);
@@ -131,7 +126,6 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     }
   }
 
-
   addRedesSociales() {
     const data = {
       option: 'open',
@@ -143,7 +137,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
           id: this.HabitacionForm.id,
           hotelDetalleId: null,
           restauranteId: this.HabitacionForm.id,
-      },
+        },
         data: null,
       },
     };
@@ -161,7 +155,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
           id: this.HabitacionForm.id,
           hotelDetalleId: null,
           restauranteId: this.HabitacionForm.id,
-      },
+        },
         data: item,
       },
     };
@@ -170,9 +164,10 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   deleteRedesSociales(item: any) {
     this.redesSocialesService.delete(item).subscribe(
       (_) => {
-        this.HabitacionForm.mc_redes_sociales = this.HabitacionForm.mc_redes_sociales.filter(
-          (red) => red.id !== item.id
-        );
+        this.HabitacionForm.mc_redes_sociales =
+          this.HabitacionForm.mc_redes_sociales.filter(
+            (red) => red.id !== item.id
+          );
       },
       (err) => {
         alert('Error' + err);
@@ -183,14 +178,13 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   handleResponseRedesSociales(event) {
     console.log('event', event);
     if (event['action-model'] == 'update') {
-      this.HabitacionForm.mc_redes_sociales = this.HabitacionForm.mc_redes_sociales.map(
-        (item) => {
+      this.HabitacionForm.mc_redes_sociales =
+        this.HabitacionForm.mc_redes_sociales.map((item) => {
           if (item.id === event.id) {
             return event;
           }
           return item;
-        }
-      );
+        });
     } else {
       this.HabitacionForm.mc_redes_sociales.push(event);
     }
@@ -200,7 +194,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     const data = {
       option: 'open',
       valueInput: {
-        type: 'HAB',
+        type: 'REST',
         id: this.HabitacionForm.id,
         foto: true,
       },
@@ -247,7 +241,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     };
     this.selectorHoraAtencion.activateModal(data);
   }
-  addInfoAdicional(){
+  addInfoAdicional() {
     const data = {
       option: 'open',
       valueInput: {
@@ -267,13 +261,14 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
         type: 'REST',
         method: 'UPDATE',
         dataNegocio: this.HabitacionForm,
-        data: {id:"",nombre,descripcion},
+        data: { id: '', nombre, descripcion, beforeNombre: nombre },
       },
     };
+    console.log('data', data);
     this.selectorInfoAdicional.activateModal(data);
   }
 
-  eliminarInfoAdicional(item){
+  eliminarInfoAdicional(item) {
     const temp = this.HabitacionForm.infoAdicional;
     this.getKeys(this.HabitacionForm.infoAdicional).map((key) => {
       if (key === item) {
@@ -293,7 +288,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     );
   }
 
-  handleInfoAdicional(event){
+  handleInfoAdicional(event) {
     this.HabitacionForm.infoAdicional = event;
   }
 
@@ -304,7 +299,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
         type: 'REST',
         method: 'UPDATE',
         dataNegocio: this.HabitacionForm,
-        data: {id:"",dia,rangoHoras},
+        data: { id: '', dia, rangoHoras, beforeDia: dia},
       },
     };
     this.selectorHoraAtencion.activateModal(data);
@@ -344,7 +339,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       }
     );
   }
-  handleHoraAtencion(event: any){
+  handleHoraAtencion(event: any) {
     this.HabitacionForm.horaAtencion = event;
   }
   handleServiceNegocio(event: any) {

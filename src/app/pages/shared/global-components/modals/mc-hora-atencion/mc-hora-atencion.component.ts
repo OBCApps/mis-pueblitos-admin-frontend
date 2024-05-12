@@ -38,6 +38,7 @@ class DataNegocio {
 class DataInfo {
   dia: string;
   rangoHoras: string;
+  beforeDia: string;
 }
 
 @Component({

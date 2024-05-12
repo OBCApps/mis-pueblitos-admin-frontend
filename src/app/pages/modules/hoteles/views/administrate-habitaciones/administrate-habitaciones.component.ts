@@ -76,8 +76,6 @@ export class AdministrateHabitacionesComponent extends BaseComponents {
       (response) => {
         console.log('response', response);
         this.HabitacionForm = response;
-        //this.getRedesSociales();
-        //this.getInfoAdicional();
       },
       (err) => {
         console.log(err);
