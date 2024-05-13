@@ -110,6 +110,16 @@
           Redes Sociales
         </a>
       </li>
+      <li class="me-2">
+        <a (click)="change_tabs('menu')" [class]="showSelectedTab('menu',tab_selected )[0]">
+          <svg [class]="showSelectedTab('menu',tab_selected )[1]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 18 20">
+            <path
+              d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z" />
+          </svg>
+          Menú
+        </a>
+      </li>
     </ul>
   </div>
   <hr class="h-px my-2 md:my-4 bg-transparent border-0" />
@@ -480,6 +490,51 @@
             }
 
 
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  } @case ('menu') {
+  <div>
+    <div>
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                NOMBRE
+              </th>
+              <th scope="col" class="px-6 py-3">
+                PRECIO
+              </th>
+              <th scope="col" class="px-6 py-3">
+                PRECIO OFERTA
+              </th>
+              <th scope="col" class="px-6 py-3">
+                INGREDIENTES
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of HabitacionForm.menu; track $index) {
+            <tr
+              class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{item.nombre}}
+              </th>
+              <td class="px-6 py-4">
+                {{item.precio}}
+              </td>
+              <td class="px-6 py-4">
+                {{item.oferta}}
+              </td>
+              <td class="px-6 py-4">
+                {{item.ingredientes}}
+              </td>
+            </tr>
+            }
           </tbody>
         </table>
       </div>

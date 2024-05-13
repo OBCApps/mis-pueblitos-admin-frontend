@@ -79,6 +79,7 @@ export class AdministrateMenusComponent extends BaseComponents {
   }
 
   coreRegister() {
+    this.MenuForm.fotos="";
     this.menuService.create(this.MenuForm).subscribe(
       (_) => {
         alert('Se registró correctamente');
@@ -89,6 +90,7 @@ export class AdministrateMenusComponent extends BaseComponents {
     );
   }
   coreUpdate() {
+    console.log("menu",this.MenuForm);
     this.menuService.update(this.MenuForm).subscribe(
       (_) => {
         alert('Se actualizó correctamente');
@@ -110,7 +112,7 @@ export class AdministrateMenusComponent extends BaseComponents {
     const data = {
       option: 'open',
       valueInput: {
-        type: 'REST',
+        type: 'PLATO',
         id: this.MenuForm.id,
         foto: true,
       },

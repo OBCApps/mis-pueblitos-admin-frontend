@@ -120,12 +120,18 @@
           <label for="tipo" class="block text-sm font-medium text-gray-900 dark:text-white">
             Restaurante
           </label>
+          @if(dtoSelected.option=='CREATE'){
           <select name="user" class="{{ValueInputsSearchs}}" [(ngModel)]="MenuForm.restauranteId">
             <option [value]="null">Choose a Restaurante</option>
             @for (item of list_restaurantes; track $index) {
             <option [value]="item.id">{{item.nombre}}</option>
             }
           </select>
+          }@else {
+          <input [(ngModel)]="MenuForm.restaurante.nombre" type="text" name="tipo" id="tipo" disabled="true"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder=" " required />
+          }
         </div>
         <div class="relative z-0 w-full mb-1 group">
           <label for="name_route" class="block  text-sm font-medium text-gray-900 dark:text-white">
@@ -157,12 +163,10 @@
         <button type="button" (click)="addFotoNegocio()"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           @if (MenuForm.fotos.length === 0) { AGREGAR FOTO } @else { CAMBIAR FOTO }
-          AGREGAR FOTO
         </button>
       </div>
       <div>
         @if (MenuForm.fotos.length != 0) {
-        <h1>imagen</h1>
         <img class="h-auto max-w-full rounded-lg" src="{{MenuForm.fotos}}" alt="{{MenuForm.nombre}}">
         }
       </div>

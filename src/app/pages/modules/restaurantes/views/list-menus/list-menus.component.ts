@@ -97,7 +97,7 @@ export class ListMenusComponent extends BaseComponents {
 
 
     this.router.navigate(
-      ['admin', 'restaurantes', 'administrate'],
+      ['admin', 'menus', 'administrate'],
       //{ skipLocationChange: true }
     );
   }
