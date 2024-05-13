@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { API_SERVICE_ADMIN } from '../../../../../environments/environment.prod';
-import { DtoRestaurante } from '../models/Dtos/DtoRestaurante';
-import { FilterRestauranteDto } from '../models/Filters/FilterRestauranteDto';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable, map} from 'rxjs';
+import {API_SERVICE_ADMIN} from '../../../../../environments/environment.prod';
+import {DtoRestaurante} from '../models/Dtos/DtoRestaurante';
+import {FilterRestauranteDto} from '../models/Filters/FilterRestauranteDto';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +13,11 @@ export class RestauranteService {
 
   constructor(private http: HttpClient) {}
 
-  /* get_list(): Observable<any> {
-        return this.http.get<any>(this.SERVER_REST + '/list').pipe(
-            map((response) => { return response })
-        );
-    } */
+  get_list(): Observable<any> {
+    return this.http.get<any>(this.SERVER_REST).pipe(
+      map((response) => {return response})
+    );
+  }
 
   get_by_id(id: any): Observable<any> {
     return this.http.get<DtoRestaurante>(this.SERVER_REST + '/' + id).pipe(
@@ -27,24 +27,24 @@ export class RestauranteService {
     );
   }
 
-  add_service(id: string, data: any){
-    return this.http.post<DtoRestaurante>(this.SERVER_REST + '/addService/' + id,data).pipe(
+  add_service(id: string, data: any) {
+    return this.http.post<DtoRestaurante>(this.SERVER_REST + '/addService/' + id, data).pipe(
       map((response) => {
         return response;
       })
     );
   }
 
-  remove_service(id: string, data: any){
-    return this.http.post<DtoRestaurante>(this.SERVER_REST + '/removeService/' + id,data).pipe(
+  remove_service(id: string, data: any) {
+    return this.http.post<DtoRestaurante>(this.SERVER_REST + '/removeService/' + id, data).pipe(
       map((response) => {
         return response;
       })
     );
   }
 
-  edit_horaAtencion(id: string, data: any){
-    return this.http.post<DtoRestaurante>(this.SERVER_REST + '/editHoraAtencion/' + id,data).pipe(
+  edit_horaAtencion(id: string, data: any) {
+    return this.http.post<DtoRestaurante>(this.SERVER_REST + '/editHoraAtencion/' + id, data).pipe(
       map((response) => {
         return response;
       })
