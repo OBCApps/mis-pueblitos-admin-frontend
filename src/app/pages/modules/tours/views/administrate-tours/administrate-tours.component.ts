@@ -9,8 +9,8 @@ import { SelectorFotoNegocioComponent } from '../../../../shared/global-componen
 import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
 import { HotelesService } from '../../../hoteles/services/HotelesService';
 import { FilterHotelesDto } from '../../../hoteles/models/Filters/FilterHotelesDto';
-import { DtoRestaurante } from '../../models/Dtos/DtoRestaurante';
-import { RestauranteService } from '../../services/RestauranteService';
+import { DtoTours } from '../../models/Dtos/DtoTours';
+import { TourService } from '../../services/TourService';
 import { McHoraAtencionComponent } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.component';
 import { McHoraAtencionService } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.service';
 import { McInfoAdicionalComponent } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.component';
@@ -20,7 +20,7 @@ import { McRedesSocialesService } from '../../../../shared/global-components/mod
 import { RedesSocialesService } from '../../../hoteles/services/RedesSocialesService';
 
 @Component({
-  selector: 'app-administrate-restaurantes',
+  selector: 'app-administrate-tours',
   standalone: true,
   imports: [
     FormsModule,
@@ -31,15 +31,15 @@ import { RedesSocialesService } from '../../../hoteles/services/RedesSocialesSer
     McInfoAdicionalComponent,
     McRedesSocialesComponent,
   ],
-  templateUrl: './administrate-restaurantes.component.html',
-  styleUrl: './administrate-restaurantes.component.scss',
+  templateUrl: './administrate-tours.component.html',
+  styleUrl: './administrate-tours.component.scss',
 })
-export class AdministrateRestaurantesComponent extends BaseComponents {
+export class AdministrateToursComponent extends BaseComponents {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     private hotelesService: HotelesService,
-    private restauranteService: RestauranteService,
+    private tourService: TourService,
     private selectorServicesNegocio: SelectorServicesNegocio,
     private selectorHoraAtencion: McHoraAtencionService,
     private selectorFotoNegocio: SelectorFotoNegocioService,
@@ -72,7 +72,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       if (this.dtoSelected.option == 'EDIT') {
         this.coreSearchById(this.dtoSelected.data);
       } else if (this.dtoSelected.option == 'CREATE') {
-        this.HabitacionForm = new DtoRestaurante();
+        this.TourForm = new DtoTours();
       }
     }
   }
@@ -82,10 +82,10 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   }
 
   coreSearchById(data: any) {
-    this.restauranteService.get_by_id(data.id).subscribe(
+    this.tourService.get_by_id(data.id).subscribe(
       (response) => {
         console.log('response', response);
-        this.HabitacionForm = response;
+        this.TourForm = response;
       },
       (err) => {
         console.log(err);
@@ -95,13 +95,12 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
 
   create_nameRoute(item: any) {
     const nameRouteWithoutSpaces = item.replace(/\s/g, '-').toLowerCase();
-    this.HabitacionForm.name_route = nameRouteWithoutSpaces;
+    this.TourForm.name_route = nameRouteWithoutSpaces;
   }
 
   coreRegister() {
-    this.restauranteService.create(this.HabitacionForm).subscribe(
-      (response) => {
-        this.HabitacionForm = response;
+    this.tourService.create(this.TourForm).subscribe(
+      (_) => {
         alert('Se registró correctamente');
       },
       (err) => {
@@ -110,7 +109,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
     );
   }
   coreUpdate() {
-    this.restauranteService.update(this.HabitacionForm).subscribe(
+    this.tourService.update(this.TourForm).subscribe(
       (_) => {
         alert('Se actualizó correctamente');
       },
@@ -123,71 +122,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   handleResponseModal(event) {
     console.log('event', event);
     if (event) {
-      this.HabitacionForm.fotos.gallery.push(event.url);
-    }
-  }
-
-  addRedesSociales() {
-    const data = {
-      option: 'open',
-      valueInput: {
-        type: 'REST',
-        method: 'CREATE',
-        dataNegocio: {
-          nombre: this.HabitacionForm.nombre,
-          id: this.HabitacionForm.id,
-          hotelDetalleId: null,
-          restauranteId: this.HabitacionForm.id,
-        },
-        data: null,
-      },
-    };
-    this.mcRedesSocialesService.activateModal(data);
-  }
-
-  editRedesSociales(item: any) {
-    const data = {
-      option: 'open',
-      valueInput: {
-        type: 'REST',
-        method: 'UPDATE',
-        dataNegocio: {
-          nombre: this.HabitacionForm.nombre,
-          id: this.HabitacionForm.id,
-          hotelDetalleId: null,
-          restauranteId: this.HabitacionForm.id,
-        },
-        data: item,
-      },
-    };
-    this.mcRedesSocialesService.activateModal(data);
-  }
-  deleteRedesSociales(item: any) {
-    this.redesSocialesService.delete(item).subscribe(
-      (_) => {
-        this.HabitacionForm.mc_redes_sociales =
-          this.HabitacionForm.mc_redes_sociales.filter(
-            (red) => red.id !== item.id
-          );
-      },
-      (err) => {
-        alert('Error' + err);
-      }
-    );
-  }
-
-  handleResponseRedesSociales(event) {
-    console.log('event', event);
-    if (event['action-model'] == 'update') {
-      this.HabitacionForm.mc_redes_sociales =
-        this.HabitacionForm.mc_redes_sociales.map((item) => {
-          if (item.id === event.id) {
-            return event;
-          }
-          return item;
-        });
-    } else {
-      this.HabitacionForm.mc_redes_sociales.push(event);
+      this.TourForm.fotos.gallery.push(event.url);
     }
   }
 
@@ -196,7 +131,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       option: 'open',
       valueInput: {
         type: 'REST',
-        id: this.HabitacionForm.id,
+        id: this.TourForm.id,
         foto: true,
       },
     };
@@ -204,51 +139,28 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   }
 
   coreRemove(item: any) {
-    this.restauranteService
-      .remove_service(this.HabitacionForm.id, item)
+    /*this.tourService
+      .remove_service(this.TourForm.id, item)
       .subscribe(
         (_) => {
-          this.HabitacionForm.mc_servicios_rest =
-            this.HabitacionForm.mc_servicios_rest.filter(
+          this.TourForm.mc_servicios_rest =
+            this.TourForm.mc_servicios_rest.filter(
               (service) => service.id !== item.id
             );
         },
         (err) => {
           console.log(err);
         }
-      );
+      );*/
   }
 
-  addServiceNegocio() {
-    const data = {
-      option: 'open',
-      valueInput: {
-        type: 'HOSP',
-        foto: true,
-      },
-    };
-    this.selectorServicesNegocio.activateModal(data);
-  }
-
-  addHoraAtencionNegocio() {
-    const data = {
-      option: 'open',
-      valueInput: {
-        type: 'REST',
-        method: 'CREATE',
-        dataNegocio: this.HabitacionForm,
-        data: null,
-      },
-    };
-    this.selectorHoraAtencion.activateModal(data);
-  }
   addInfoAdicional() {
     const data = {
       option: 'open',
       valueInput: {
         type: 'REST',
         method: 'CREATE',
-        dataNegocio: this.HabitacionForm,
+        dataNegocio: this.TourForm,
         data: null,
       },
     };
@@ -261,7 +173,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       valueInput: {
         type: 'REST',
         method: 'UPDATE',
-        dataNegocio: this.HabitacionForm,
+        dataNegocio: this.TourForm,
         data: { id: '', nombre, descripcion, beforeNombre: nombre },
       },
     };
@@ -270,62 +182,31 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
   }
 
   eliminarInfoAdicional(item) {
-    const temp = this.HabitacionForm.infoAdicional;
-    this.getKeys(this.HabitacionForm.infoAdicional).map((key) => {
+    const temp = this.TourForm.infoAdicional;
+    this.getKeys(this.TourForm.infoAdicional).map((key) => {
       if (key === item) {
-        delete this.HabitacionForm.infoAdicional[key];
+        delete this.TourForm.infoAdicional[key];
       }
     });
-    this.restauranteService.update(this.HabitacionForm).subscribe(
+    this.tourService.update(this.TourForm).subscribe(
       (response) => {
         alert('Se eliminó correctamente');
-        this.HabitacionForm.infoAdicional = response.infoAdicional;
+        this.TourForm.infoAdicional = response.infoAdicional;
       },
       (err) => {
         console.log(err);
         alert('Error al eliminar, vuelva a intentarlo');
-        this.HabitacionForm.infoAdicional = temp;
+        this.TourForm.infoAdicional = temp;
       }
     );
   }
 
   handleInfoAdicional(event) {
-    this.HabitacionForm.infoAdicional = event;
+    this.TourForm.infoAdicional = event;
   }
 
-  editHoraAtencionNegocio(dia: string, rangoHoras: string) {
-    const data = {
-      option: 'open',
-      valueInput: {
-        type: 'REST',
-        method: 'UPDATE',
-        dataNegocio: this.HabitacionForm,
-        data: { id: '', dia, rangoHoras, beforeDia: dia},
-      },
-    };
-    this.selectorHoraAtencion.activateModal(data);
-  }
 
-  eliminarHoraAtencionNegocio(dia: string) {
-    const temp = this.HabitacionForm.horaAtencion[dia];
-    this.getKeys(this.HabitacionForm.horaAtencion).map((key) => {
-      if (key === dia) {
-        delete this.HabitacionForm.horaAtencion[key];
-      }
-    });
 
-    this.restauranteService.update(this.HabitacionForm).subscribe(
-      (response) => {
-        alert('Se eliminó correctamente');
-        this.HabitacionForm.horaAtencion = response.horaAtencion;
-      },
-      (err) => {
-        console.log(err);
-        alert('Error al eliminar, vuelva a intentarlo');
-        this.HabitacionForm.horaAtencion[dia] = temp;
-      }
-    );
-  }
 
   list_hoteles: any[] = [];
   getAllHoteles() {
@@ -340,38 +221,7 @@ export class AdministrateRestaurantesComponent extends BaseComponents {
       }
     );
   }
-  handleHoraAtencion(event: any) {
-    this.HabitacionForm.horaAtencion = event;
-  }
-  handleServiceNegocio(event: any) {
-    console.log('evento', event.selected);
-    if (this.existService(event.selected.id)) {
-      alert('El servicio ya se encuentra agregado');
-      return;
-    }
-
-    this.restauranteService
-      .add_service(this.HabitacionForm.id, event.selected)
-      .subscribe(
-        (_) => {
-          this.HabitacionForm.mc_servicios_rest.push(event.selected);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-  }
-
-  existService(id: string): boolean {
-    // Busca el servicio en la lista de servicios de la habitación
-    const service = this.HabitacionForm.mc_servicios_rest.find(
-      (item) => item.id === id
-    );
-
-    // Si el servicio se encuentra, devuelve true; de lo contrario, devuelve false
-    return !!service;
-  }
 
   // ---------------- dto HOTELES VALUE ----------- \\
-  HabitacionForm: DtoRestaurante = new DtoRestaurante();
+  TourForm: DtoTours = new DtoTours();
 }

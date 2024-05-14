@@ -20,6 +20,7 @@ export class DtoRedesSociales {
   valor: string;
   hotelDetalleId: string;
   restauranteId: string;
+  agenciaId: string;
 }
 
 export class DtoDatos {

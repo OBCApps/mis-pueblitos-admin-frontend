@@ -97,23 +97,34 @@ export class McInfoAdicionalComponent {
     console.log('dto', this.dtoValue);
     const temp = this.dtoValue;
     delete temp.id;
-    if(this.valueInput.type=="HAB"){
-      this.modalService.updateInfoAdicionalHab(this.valueInput.dataNegocio.id, temp).subscribe(
-        (response) => {
-          console.log('response', response);
-          this.responseModal.emit(response.infoAdicional);
-          this.Modal.hide();
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
-    else if (this.valueInput.type == 'REST') {
-      const temp = this.dtoValue;
-      delete temp.id;
+    if (this.valueInput.type == 'HAB') {
+      this.modalService
+        .updateInfoAdicionalHab(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
+          (response) => {
+            console.log('response', response);
+            this.responseModal.emit(response.infoAdicional);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else if (this.valueInput.type == 'REST') {
       this.modalService
         .updateInfoAdicionalRest(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
+          (response) => {
+            this.responseModal.emit(response.infoAdicional);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else if (this.valueInput.type == 'AGENCIA') {
+      this.modalService
+        .updateInfoAdicionalAgencia(this.valueInput.dataNegocio.id, temp)
         .subscribe(
           (response) => {
             this.responseModal.emit(response.infoAdicional);
@@ -157,26 +168,36 @@ export class McInfoAdicionalComponent {
   }
 
   coreUpdate() {
-    if(this.valueInput.type=='HAB'){
-      const temp = this.dtoValue;
-      delete temp.id;
-
-      this.modalService.updateInfoAdicionalHab(this.valueInput.dataNegocio.id, temp).subscribe(
-        (response) => {
-          this.responseModal.emit(response.infoAdicional);
-          this.Modal.hide();
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
-    else if (this.valueInput.type == 'REST') {
-      const temp = this.dtoValue;
-      delete temp.id;
+    const temp = this.dtoValue;
+    delete temp.id;
+    if (this.valueInput.type == 'HAB') {
+      this.modalService
+        .updateInfoAdicionalHab(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
+          (response) => {
+            this.responseModal.emit(response.infoAdicional);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else if (this.valueInput.type == 'REST') {
       console.log('temp', temp);
       this.modalService
         .updateInfoAdicionalRest(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
+          (response) => {
+            this.responseModal.emit(response.infoAdicional);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else if (this.valueInput.type == 'AGENCIA') {
+      this.modalService
+        .updateInfoAdicionalAgencia(this.valueInput.dataNegocio.id, temp)
         .subscribe(
           (response) => {
             this.responseModal.emit(response.infoAdicional);

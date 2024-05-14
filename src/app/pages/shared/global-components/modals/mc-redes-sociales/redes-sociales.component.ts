@@ -1,93 +1,135 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Component, Inject, Output, PLATFORM_ID, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Output,
+  PLATFORM_ID,
+  EventEmitter,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { NgFor, isPlatformBrowser } from '@angular/common';
-import { Drawer, DrawerInterface, DrawerOptions, InstanceOptions, Modal, ModalOptions } from 'flowbite';
+import {
+  Drawer,
+  DrawerInterface,
+  DrawerOptions,
+  InstanceOptions,
+  Modal,
+  ModalOptions,
+} from 'flowbite';
 import { McRedesSocialesService } from './redes-sociales.service';
 import { DtoRedesSocialesMantenimiento } from './models/DtoRedesSociales';
 import { DtoRedesSociales } from '../../../../modules/hoteles/models/Dtos/DtoHotelesDetalle';
 
 class DtoModal {
-    type: string
-    method: string;
-    dataNegocio: DataNegocio = new DataNegocio();
-    data: any;
+  type: string;
+  method: string;
+  dataNegocio: DataNegocio = new DataNegocio();
+  data: any;
 }
 
 class DataNegocio {
-    nombre?: string
-    id: string
-    hotelDetalleId: string
-    restauranteId: string
+  nombre?: string;
+  id: string;
+  hotelDetalleId: string;
+  restauranteId: string;
+  agenciaId: string;
 }
 
 @Component({
-    selector: 'app-redes-sociales-component',
-    standalone: true,
-    imports: [FormsModule, HttpClientModule, NgFor],
-    templateUrl: './redes-sociales.component.html',
-    styleUrl: './redes-sociales.component.scss',
+  selector: 'app-redes-sociales-component',
+  standalone: true,
+  imports: [FormsModule, HttpClientModule, NgFor],
+  templateUrl: './redes-sociales.component.html',
+  styleUrl: './redes-sociales.component.scss',
 })
 export class McRedesSocialesComponent {
-    @Output() responseModal = new EventEmitter<any>();
-    Modal: DrawerInterface;
-    valueInput: DtoModal = new DtoModal();
+  @Output() responseModal = new EventEmitter<any>();
+  Modal: DrawerInterface;
+  valueInput: DtoModal = new DtoModal();
 
-    constructor(
-        private modalService: McRedesSocialesService,
-        @Inject(PLATFORM_ID) private platformId: Object
-    ) {
-        this.modalService.modalState$.subscribe((option) => {
-            this.valueInput = option.valueInput;
-            if (this.valueInput.data) {
-                this.dtoValue = { ...this.valueInput.data };
-            } else {
-                this.dtoValue = new DtoRedesSociales()
-            }
-            this.activate_modal(option.option);
-        });
+  constructor(
+    private modalService: McRedesSocialesService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.modalService.modalState$.subscribe((option) => {
+      this.valueInput = option.valueInput;
+      if (this.valueInput.data) {
+        this.dtoValue = { ...this.valueInput.data };
+      } else {
+        this.dtoValue = new DtoRedesSociales();
+      }
+      this.activate_modal(option.option);
+    });
+  }
+
+  activate_modal(option: any) {
+    // Entrada y respuesta del modal
+    if (option == 'close') {
+      this.Modal.hide();
+    } else if (option == 'open') {
+      this.create_modal();
     }
+  }
 
-    activate_modal(option: any) { // Entrada y respuesta del modal
-        if (option == 'close') {
-            this.Modal.hide();
-        } else if (option == 'open') {
-            this.create_modal();
-        }
-    }
+  // ----------------- FUNCIONALIDAD COMPLETA ------------------------ \\
+  dtoValue: DtoRedesSociales = new DtoRedesSociales();
 
-    // ----------------- FUNCIONALIDAD COMPLETA ------------------------ \\
-    dtoValue: DtoRedesSociales = new DtoRedesSociales()
+  selectTipo: any[] = [
+    {
+      value: null,
+      desc: '-- Todos --',
+    },
+    {
+      value: 'instagram',
+      desc: 'Instagram',
+    },
+    {
+      value: 'facebook',
+      desc: 'Facebook',
+    },
+    {
+      value: 'twitter',
+      desc: 'Twitter',
+    },
+    {
+      value: 'whatsapp',
+      desc: 'Whatsapp',
+    },
+  ];
 
-    selectTipo: any[] = [
-        {
-            value: null,
-            desc: '-- Todos --'
-        },
-        {
-            value: 'instagram',
-            desc: 'Instagram'
-        },
-        {
-            value: 'facebook',
-            desc: 'Facebook'
-        },
-        {
-            value: 'twitter',
-            desc: 'Twitter'
-        },
-    ]
+  // ----------- PARA CREAR ESTOS MODELOS YA TENEMOS LOS DATOS DEL NEGOCIO Y LOS DATOS A AGREGAR
+  // ----------- IMPLEMENTAR EL API
+  coreRegister() {
+    this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
+    this.dtoValue.restauranteId = this.valueInput.dataNegocio.restauranteId;
+    this.dtoValue.agenciaId = this.valueInput.dataNegocio.agenciaId;
 
-    // ----------- PARA CREAR ESTOS MODELOS YA TENEMOS LOS DATOS DEL NEGOCIO Y LOS DATOS A AGREGAR
-    // ----------- IMPLEMENTAR EL API
-    coreRegister() {
-      this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
-      this.dtoValue.restauranteId = this.valueInput.dataNegocio.restauranteId;
-      this.modalService.uploadFoto(this.dtoValue,this.valueInput.type).subscribe(
+    this.modalService.uploadFoto(this.dtoValue, this.valueInput.type).subscribe(
+      (response) => {
+        console.log('response', response);
+        response['action-model'] = 'create';
+        this.responseModal.emit(response);
+        this.Modal.hide();
+      },
+      (error) => {
+        console.log('error', error);
+        this.responseModal.emit(null);
+        this.Modal.hide();
+      }
+    );
+  }
+
+  coreUpdate() {
+    this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
+    this.dtoValue.restauranteId = this.valueInput.dataNegocio.restauranteId;
+
+    this.modalService
+      .updateRedSocial(this.dtoValue.id, this.dtoValue, this.valueInput.type)
+      .subscribe(
         (response) => {
           console.log('response', response);
-          response["action-model"]="create";
+          response['action-model'] = 'update';
           this.responseModal.emit(response);
           this.Modal.hide();
         },
@@ -97,77 +139,40 @@ export class McRedesSocialesComponent {
           this.Modal.hide();
         }
       );
-    }
+  }
 
-    coreUpdate() {
-      this.dtoValue.hotelDetalleId = this.valueInput.dataNegocio.hotelDetalleId;
-      this.dtoValue.restauranteId = this.valueInput.dataNegocio.restauranteId;
-      this.modalService.updateRedSocial(this.dtoValue.id, this.dtoValue,this.valueInput.type).subscribe(
-        (response) => {
-          console.log('response', response);
-          response["action-model"]="update";
-          this.responseModal.emit(response);
-          this.Modal.hide();
+  // ------------------- FUNCIONALIDAD CREAR MODAL -------------------- \\
+  create_modal() {
+    if (isPlatformBrowser(this.platformId)) {
+      const $targetEl = document.getElementById('mc-redes-sociales');
+      $targetEl.removeAttribute('hidden');
+
+      const options: DrawerOptions = {
+        placement: 'right',
+        backdrop: true,
+        bodyScrolling: false,
+        edge: false,
+        edgeOffset: '',
+        backdropClasses:
+          'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-20',
+        onHide: () => {
+          console.log('drawer is hidden');
         },
-        (error) => {
-          console.log('error', error);
-          this.responseModal.emit(null);
-          this.Modal.hide();
-        }
-      );
+        onShow: () => {
+          console.log('drawer is shown');
+        },
+        onToggle: () => {
+          console.log('drawer has been toggled');
+        },
+      };
+
+      const instanceOptions: InstanceOptions = {
+        id: 'mc-redes-sociales',
+        override: true,
+      };
+
+      this.Modal = new Drawer($targetEl, options, instanceOptions);
+      this.Modal.show();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // ------------------- FUNCIONALIDAD CREAR MODAL -------------------- \\
-    create_modal() {
-        if (isPlatformBrowser(this.platformId)) {
-
-
-            const $targetEl = document.getElementById('mc-redes-sociales');
-            $targetEl.removeAttribute('hidden');
-
-            const options: DrawerOptions = {
-                placement: 'right',
-                backdrop: true,
-                bodyScrolling: false,
-                edge: false,
-                edgeOffset: '',
-                backdropClasses:
-                    'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-20',
-                onHide: () => {
-                    console.log('drawer is hidden');
-                },
-                onShow: () => {
-                    console.log('drawer is shown');
-                },
-                onToggle: () => {
-                    console.log('drawer has been toggled');
-                },
-            };
-
-            const instanceOptions: InstanceOptions = {
-                id: 'mc-redes-sociales',
-                override: true
-            };
-
-            this.Modal = new Drawer($targetEl, options, instanceOptions);
-            this.Modal.show();
-        }
-    }
-
-
-
+  }
 }
