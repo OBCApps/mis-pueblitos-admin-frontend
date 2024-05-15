@@ -20,6 +20,8 @@ export class SelectorFotoNegocioService {
   private API_SERVER_ADMIN_FOTO_HAB = API_SERVICE_ADMIN + '/habitacion';
   private API_SERVER_ADMIN_FOTO_REST = API_SERVICE_ADMIN + '/restaurante';
   private API_SERVER_ADMIN_FOTO_PLATO = API_SERVICE_ADMIN + '/platos';
+  private API_SERVER_ADMIN_FOTO_TOUR = API_SERVICE_ADMIN + '/tour';
+  private API_SERVER_ADMIN_FOTO_AGENCIA = API_SERVICE_ADMIN + '/agencia';
   public uploadFoto(id: string, data: any, tipo: string): Observable<any> {
     const formData = new FormData();
     formData.append('file', data);
@@ -30,6 +32,10 @@ export class SelectorFotoNegocioService {
         ? this.API_SERVER_ADMIN_FOTO_REST
         : tipo == 'PLATO'
         ? this.API_SERVER_ADMIN_FOTO_PLATO
+        : tipo == 'TOUR'
+        ? this.API_SERVER_ADMIN_FOTO_TOUR
+        : tipo == 'AGENCIA'
+        ? this.API_SERVER_ADMIN_FOTO_AGENCIA
         : this.API_SERVER_ADMIN_FOTO;
     return this.http
       .post<any>(base_url + '/register-file/' + id, formData)

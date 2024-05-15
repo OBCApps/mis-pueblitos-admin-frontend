@@ -134,6 +134,18 @@ export class McInfoAdicionalComponent {
             console.log(err);
           }
         );
+    } else if (this.valueInput.type == 'TOUR') {
+      this.modalService
+        .updateInfoAdicionalTour(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
+          (response) => {
+            this.responseModal.emit(response.infoAdicional);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
     } else {
       this.modalService.addInfoAdicional(this.dtoValue).subscribe(
         (response) => {
@@ -198,6 +210,18 @@ export class McInfoAdicionalComponent {
     } else if (this.valueInput.type == 'AGENCIA') {
       this.modalService
         .updateInfoAdicionalAgencia(this.valueInput.dataNegocio.id, temp)
+        .subscribe(
+          (response) => {
+            this.responseModal.emit(response.infoAdicional);
+            this.Modal.hide();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else if (this.valueInput.type == 'TOUR') {
+      this.modalService
+        .updateInfoAdicionalTour(this.valueInput.dataNegocio.id, temp)
         .subscribe(
           (response) => {
             this.responseModal.emit(response.infoAdicional);

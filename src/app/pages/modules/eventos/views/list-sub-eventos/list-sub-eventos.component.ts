@@ -183,7 +183,7 @@ export class ListSubEventosComponent extends BaseComponents {
 
     if (this.dataLocalStorage.option == 'CREATE') {
       delete evento.id;
-      this.eventoService.create_evento(evento).subscribe(
+      this.eventoService.create(evento).subscribe(
         (response: any) => {
           /*Swal.fire({
             title: '¡Creado!',
@@ -207,7 +207,7 @@ export class ListSubEventosComponent extends BaseComponents {
         }
       );
     } else if (this.dataLocalStorage.option == 'EDIT') {
-      this.eventoService.update_evento(evento.id, evento).subscribe(
+      this.eventoService.update(evento).subscribe(
         (response: any) => {
           /*Swal.fire({
             title: '¡Actualizado!',

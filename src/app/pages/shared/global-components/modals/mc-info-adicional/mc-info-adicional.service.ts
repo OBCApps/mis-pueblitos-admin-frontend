@@ -20,6 +20,7 @@ export class McInfoAdicionalService {
   private API_SERVER_ADMIN_REST = API_SERVICE_ADMIN + '/restaurante';
   private API_SERVER_ADMIN_HAB = API_SERVICE_ADMIN + '/habitacion';
   private API_SERVER_ADMIN_AGENCIA = API_SERVICE_ADMIN + '/agencia';
+  private API_SERVER_ADMIN_TOUR = API_SERVICE_ADMIN + '/tour';
 
   public uploadFoto(id: string, data: any): Observable<any> {
     const { celular, direccion, correo } = data;
@@ -92,6 +93,16 @@ export class McInfoAdicionalService {
         this.API_SERVER_ADMIN_AGENCIA + '/editInfoAdicional/' + id,
         data
       )
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  }
+
+  public updateInfoAdicionalTour(id: string, data: any): Observable<any> {
+    return this.http
+      .patch<any>(this.API_SERVER_ADMIN_TOUR + '/editInfoAdicional/' + id, data)
       .pipe(
         map((response) => {
           return response;

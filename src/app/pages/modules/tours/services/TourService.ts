@@ -57,7 +57,7 @@ export class TourService {
 
   create(data: DtoTours): Observable<any> {
     return this.http
-      .post<DtoTours>(this.SERVER_TOUR + '/register', data)
+      .post<DtoTours>(this.SERVER_TOUR, data)
       .pipe(
         map((response) => {
           return response;
@@ -77,7 +77,7 @@ export class TourService {
 
   update(data: DtoTours): Observable<any> {
     return this.http
-      .patch<DtoTours>(this.SERVER_TOUR + '/update/' + data.id, data)
+      .patch<DtoTours>(this.SERVER_TOUR + '/' + data.id, data)
       .pipe(
         map((response) => {
           return response;
@@ -87,7 +87,7 @@ export class TourService {
 
   delete(data: DtoTours): Observable<any> {
     return this.http
-      .delete<DtoTours>(this.SERVER_TOUR + '/delete/' + data.id)
+      .delete<DtoTours>(this.SERVER_TOUR + '/' + data.id)
       .pipe(
         map((response) => {
           return response;

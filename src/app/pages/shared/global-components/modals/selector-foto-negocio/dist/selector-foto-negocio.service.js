@@ -17,6 +17,10 @@ var SelectorFotoNegocioService = /** @class */ (function () {
         this.modalState$ = this.modalFotoService.asObservable();
         this.API_SERVER_ADMIN_FOTO = environment_prod_1.API_SERVICE_ADMIN + '/hotel-detalle';
         this.API_SERVER_ADMIN_FOTO_HAB = environment_prod_1.API_SERVICE_ADMIN + '/habitacion';
+        this.API_SERVER_ADMIN_FOTO_REST = environment_prod_1.API_SERVICE_ADMIN + '/restaurante';
+        this.API_SERVER_ADMIN_FOTO_PLATO = environment_prod_1.API_SERVICE_ADMIN + '/platos';
+        this.API_SERVER_ADMIN_FOTO_TOUR = environment_prod_1.API_SERVICE_ADMIN + '/tour';
+        this.API_SERVER_ADMIN_FOTO_AGENCIA = environment_prod_1.API_SERVICE_ADMIN + '/agencia';
     }
     SelectorFotoNegocioService.prototype.activateModal = function (option) {
         console.log('option foto', option);
@@ -25,7 +29,17 @@ var SelectorFotoNegocioService = /** @class */ (function () {
     SelectorFotoNegocioService.prototype.uploadFoto = function (id, data, tipo) {
         var formData = new FormData();
         formData.append('file', data);
-        var base_url = tipo == 'HAB' ? this.API_SERVER_ADMIN_FOTO_HAB : this.API_SERVER_ADMIN_FOTO;
+        var base_url = tipo == 'HAB'
+            ? this.API_SERVER_ADMIN_FOTO_HAB
+            : tipo == 'REST'
+                ? this.API_SERVER_ADMIN_FOTO_REST
+                : tipo == 'PLATO'
+                    ? this.API_SERVER_ADMIN_FOTO_PLATO
+                    : tipo == 'TOUR'
+                        ? this.API_SERVER_ADMIN_FOTO_TOUR
+                        : tipo == 'AGENCIA'
+                            ? this.API_SERVER_ADMIN_FOTO_AGENCIA
+                            : this.API_SERVER_ADMIN_FOTO;
         return this.http
             .post(base_url + '/register-file/' + id, formData)
             .pipe(rxjs_1.map(function (response) {

@@ -19,12 +19,11 @@ export class ListEventosComponent extends BaseComponents {
   label_class: any =
     'peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
 
-
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public router: Router,
     private eventoService: EventoService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
     super();
   }
@@ -74,19 +73,26 @@ export class ListEventosComponent extends BaseComponents {
       option: 'EDIT',
       data: item,
     };
-    localStorage.setItem('itemSelected', JSON.stringify(data));
-    this.transferedDataToNavar({ title: 'Editar Firmante' });
-    this.router.navigate(['/home/add-eventos']);
+    console.log('data', data);
+    localStorage.setItem('dtoSelected', JSON.stringify(data));
+
+    this.router.navigate(
+      ['admin', 'eventos', 'administrate']
+      //{ skipLocationChange: true }
+    );
   }
 
   goToCreate() {
     const data = {
       option: 'CREATE',
-      data: {},
+      data: new DtoEvento(),
     };
-    localStorage.setItem('itemSelected', JSON.stringify(data));
-    this.transferedDataToNavar({ title: 'Agregar Firmante' });
-    this.router.navigate(['/home/add-eventos']);
+    localStorage.setItem('dtoSelected', JSON.stringify(data));
+
+    this.router.navigate(
+      ['admin', 'eventos', 'administrate']
+      //{ skipLocationChange: true }
+    );
   }
   cleanAll() {
     /*const { page, pageSize } = this.searchValueForm.value;

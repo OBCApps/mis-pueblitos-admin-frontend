@@ -187,7 +187,7 @@ export class AdministrateAgenciasComponent extends BaseComponents {
   handleResponseModal(event: any) {
     console.log('event', event);
     if (event) {
-      this.MenuForm.fotos.gallery.push(event.url);
+      this.MenuForm.fotos = event.url;
     }
   }
 
@@ -246,7 +246,7 @@ export class AdministrateAgenciasComponent extends BaseComponents {
     const data = {
       option: 'open',
       valueInput: {
-        type: 'AGENCIA',
+        type: 'PLATO',
         id: this.MenuForm.id,
         foto: true,
       },

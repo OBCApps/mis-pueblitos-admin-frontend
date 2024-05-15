@@ -37,7 +37,7 @@ export class EventoService {
       })
     );
   }
-  create_evento(data: any): Observable<DtoEvento> {
+  create(data: any): Observable<DtoEvento> {
     return this.http.post<DtoEvento>(this.API_SERVER_EVENTO, data).pipe(
       map((response) => {
         return response;
@@ -45,9 +45,9 @@ export class EventoService {
     );
   }
 
-  update_evento(id: any, data: any): Observable<DtoEvento> {
+  update(data: any): Observable<DtoEvento> {
     return this.http
-      .patch<DtoEvento>(this.API_SERVER_EVENTO + '/' + id, data)
+      .patch<DtoEvento>(this.API_SERVER_EVENTO + '/' + data.id, data)
       .pipe(
         map((response) => {
           return response;
@@ -55,8 +55,8 @@ export class EventoService {
       );
   }
 
-  delete_evento(id: any): Observable<any> {
-    return this.http.delete<any>(this.API_SERVER_EVENTO + '/' + id).pipe(
+  delete(data: any): Observable<any> {
+    return this.http.delete<any>(this.API_SERVER_EVENTO + '/' + data.id).pipe(
       map((response) => {
         return response;
       })
