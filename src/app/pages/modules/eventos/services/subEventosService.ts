@@ -8,7 +8,7 @@ import { DtoSubEvento } from '../models/DtoEventos';
 @Injectable({
     providedIn: 'root'
 })
-export class SubEventoService {
+export class SubEventosService {
     private API_SERVER_SUBEVENTO = API_SERVICE_ADMIN + '/sub-evento'
 
     constructor(
