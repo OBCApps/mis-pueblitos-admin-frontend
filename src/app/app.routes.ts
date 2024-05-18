@@ -19,6 +19,7 @@ import { AdministrateAgenciasComponent } from './pages/modules/tours/views/admin
 import { ListToursComponent } from './pages/modules/tours/views/list-tours/list-tours.component';
 import { AdministrateToursComponent } from './pages/modules/tours/views/administrate-tours/administrate-tours.component';
 import { AdministrateEventosComponent } from './pages/modules/eventos/views/administrate-eventos/administrate-eventos.component';
+import { AdministrateSubEventosComponent } from './pages/modules/eventos/views/administrate-sub-eventos/administrate-sub-eventos.component';
 
 export const routes: Routes = [
   {
@@ -107,7 +108,7 @@ export const routes: Routes = [
           { path: 'list', component: ListSubEventosComponent },
           {
             path: 'administrate',
-            component: AdministrateDepartamentoComponent,
+            component: AdministrateSubEventosComponent,
           },
         ],
       },

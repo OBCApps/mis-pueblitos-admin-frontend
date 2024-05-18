@@ -3,16 +3,19 @@ import { BaseComponents } from '../../../../shared/global-components/BaseCompone
 import { FormsModule } from '@angular/forms';
 import { LowerCasePipe, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-import { SelectorServicesNegocioComponent } from '../../../../shared/global-components/modals/selector-serviceNegocio/selector-services-negocio.component';
 import { SelectorFotoNegocioComponent } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.component';
 import { SelectorFotoNegocioService } from '../../../../shared/global-components/modals/selector-foto-negocio/selector-foto-negocio.service';
-import { DtoEvento, Proveedor } from '../../models/DtoEventos';
+import {
+  DtoEvento,
+  DtoEventos,
+  DtoSubEvento,
+  Proveedor,
+} from '../../models/DtoEventos';
 import { EventoService } from '../../services/eventosService';
-import { McHoraAtencionComponent } from '../../../../shared/global-components/modals/mc-hora-atencion/mc-hora-atencion.component';
-import { McInfoAdicionalComponent } from '../../../../shared/global-components/modals/mc-info-adicional/mc-info-adicional.component';
-import { McRedesSocialesComponent } from '../../../../shared/global-components/modals/mc-redes-sociales/redes-sociales.component';
-import {ProveedoresService} from '../../services/proveedoresService';
-import { url } from 'inspector';
+import { ProveedoresService } from '../../services/proveedoresService';
+import { SubEventosService } from '../../services/subEventosService';
+import { MCSubEventoDetalleService } from '../../../../shared/global-components/modals/mc-sub-evento-detalle/mc-sub-evento-detalle.service';
+import { MCSubEventoDetalleComponent } from '../../../../shared/global-components/modals/mc-sub-evento-detalle/mc-sub-evento-detalle.component';
 
 @Component({
   selector: 'app-administrate-restaurantes',
@@ -20,21 +23,20 @@ import { url } from 'inspector';
   imports: [
     FormsModule,
     LowerCasePipe,
-    SelectorServicesNegocioComponent,
     SelectorFotoNegocioComponent,
-    McHoraAtencionComponent,
-    McInfoAdicionalComponent,
-    McRedesSocialesComponent,
+    MCSubEventoDetalleComponent
   ],
-  templateUrl: './administrate-eventos.component.html',
+  templateUrl: './administrate-sub-eventos.component.html',
 })
-export class AdministrateEventosComponent extends BaseComponents {
+export class AdministrateSubEventosComponent extends BaseComponents {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    private restauranteService: EventoService,
+    private subEventosService: SubEventosService,
     private selectorFotoNegocio: SelectorFotoNegocioService,
     private proveedorService: ProveedoresService,
+    private eventoService: EventoService,
+    private mcSubEventosService: MCSubEventoDetalleService,
   ) {
     super();
   }
@@ -45,7 +47,7 @@ export class AdministrateEventosComponent extends BaseComponents {
 
   general_loads() {
     this.loads_storage();
-    this.getAllProveedores()
+    this.getAllProveedores();
     //this.getAllHoteles();
   }
 
@@ -62,7 +64,7 @@ export class AdministrateEventosComponent extends BaseComponents {
       if (this.dtoSelected.option == 'EDIT') {
         this.coreSearchById(this.dtoSelected.data);
       } else if (this.dtoSelected.option == 'CREATE') {
-        this.EventoForm = new DtoEvento();
+        this.EventoForm = new DtoSubEvento();
       }
     }
   }
@@ -72,7 +74,7 @@ export class AdministrateEventosComponent extends BaseComponents {
   }
 
   coreSearchById(data: any) {
-    this.restauranteService.get_evento(data.id).subscribe(
+    this.subEventosService.get_subEvento(data.id).subscribe(
       (response) => {
         console.log('response', response);
         this.EventoForm = response;
@@ -89,7 +91,7 @@ export class AdministrateEventosComponent extends BaseComponents {
   }
 
   coreRegister() {
-    this.restauranteService.create(this.EventoForm).subscribe(
+    this.subEventosService.create_subEvento(this.EventoForm).subscribe(
       (response) => {
         this.EventoForm = response;
         alert('Se registró correctamente');
@@ -98,16 +100,19 @@ export class AdministrateEventosComponent extends BaseComponents {
         console.log(err);
       }
     );
+
   }
   coreUpdate() {
-    this.restauranteService.update(this.EventoForm).subscribe(
-      (_) => {
-        alert('Se actualizó correctamente');
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.subEventosService
+      .update_subEvento(this.EventoForm.id, this.EventoForm)
+      .subscribe(
+        (_) => {
+          alert('Se actualizó correctamente');
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   handleResponseModal(event: any) {
@@ -125,15 +130,30 @@ export class AdministrateEventosComponent extends BaseComponents {
         id: this.EventoForm.id,
         foto: true,
         infoImage: {
-          url: "",
-          titulo: "",
-          lugar: "",
-          proveedorId:"",
-        }
+          url: '',
+          titulo: '',
+          lugar: '',
+          proveedorId: '',
+        },
       },
     };
     this.selectorFotoNegocio.activateModal(data);
   }
+
+  editDetalle(item) {
+    const data = {
+      option: 'open',
+      valueInput: {
+        type: 'SUBEVENTO',
+        method: 'UPDATE',
+        dataNegocio: this.EventoForm,
+        data: item,
+      },
+    };
+    this.mcSubEventosService.activateModal(data);
+  }
+
+  removeDetalle(item) {}
 
   list_proveedores: Proveedor[] = [];
   getAllProveedores() {
@@ -147,6 +167,18 @@ export class AdministrateEventosComponent extends BaseComponents {
     );
   }
 
+  list_eventos: DtoEventos[] = [];
+  getAllEventos() {
+    this.eventoService.get_listado_eventos().subscribe(
+      (response) => {
+        this.list_eventos = response;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
   // ---------------- dto HOTELES VALUE ----------- \\
-  EventoForm: DtoEvento = new DtoEvento();
+  EventoForm: DtoSubEvento = new DtoSubEvento();
 }

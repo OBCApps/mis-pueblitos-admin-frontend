@@ -3,7 +3,6 @@
   <div class="relative p-4 w-full max-w-2xl max-h-full">
     <!-- Modal content -->
 
-
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
       <!-- Modal header -->
       <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -23,6 +22,18 @@
       <!-- Modal body -->
       <div class="p-4 md:p-5 space-y-4">
         <div class="grid grid-cols-6 gap-4">
+          @if (valueInput && valueInput.type == "EVENTO") {
+          <div class="col-span-4">
+            <label for="titulo" class="block text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
+            <input type="text" id="titulo" accept="image/*" (change)="handleFileSelect($event)"
+              class="bg-transparent text-gray-900 text-sm rounded-lg focus:ring-transparent block w-full p-2.5">
+          </div>
+          <div class="col-span-4">
+            <label for="lugar" class="block text-sm font-medium text-gray-900 dark:text-white">Lugar</label>
+            <input type="text" id="lugar" accept="image/*" (change)="handleFileSelect($event)"
+              class="bg-transparent text-gray-900 text-sm rounded-lg focus:ring-transparent block w-full p-2.5">
+          </div>
+          }
           <div class="col-span-4">
             <label for="default-input" class="block text-sm font-medium text-gray-900 dark:text-white">Foto</label>
             <input type="file" id="default-input" accept="image/*" (change)="handleFileSelect($event)"

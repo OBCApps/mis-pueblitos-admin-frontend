@@ -67,13 +67,15 @@ var SelectorFotoNegocioComponent = /** @class */ (function () {
     SelectorFotoNegocioComponent.prototype.upload_file = function () {
         var _this = this;
         console.log('valueInput', this.valueInput.id);
-        this.modalService.uploadFoto(this.valueInput.id, this.file, this.valueInput.type).subscribe(function (response) {
+        this.modalService
+            .uploadFoto(this.valueInput.id, this.file, this.valueInput.type, this.valueInput.infoImage)
+            .subscribe(function (response) {
             console.log('response', response);
             _this.responseModal.emit(response);
             _this.Modal.hide();
         }, function (error) {
             console.log('error', error.error.message);
-            if (error.error.message == "No se pueden subir más fotos") {
+            if (error.error.message == 'No se pueden subir más fotos') {
                 alert('Excedió el límite de fotos permitidas');
             }
             else {

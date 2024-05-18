@@ -12,7 +12,7 @@ export class DtoSubEvento {
   id: string;
   nombre: string;
   descripcion: string;
-  foto: any;
+  foto: Foto;
   dia: string;
   horaInicio: string;
   horaFin: string;
@@ -36,19 +36,7 @@ export class DtoSubEvento {
       departamentoId: string;
     };
   };
-  subEventoDetalles: [
-    {
-      id: string;
-      detalle: string;
-      organizador: string;
-      foto: any;
-      recomendaciones: string;
-      horaInicio: string;
-      horaFin: string;
-      subEventoId: string;
-      subEventoNombre: string;
-    }
-  ];
+  subEventoDetalles: DtoSubEventoDetalle[];
 }
 
 export class DtoSubEventoDetalle {
@@ -67,7 +55,7 @@ export class DtoEventos {
   id: string;
   nombre: string;
   descripcion: string;
-  foto: any;
+  foto: Foto;
   ubicacionExacta: string;
   fechaInicio: string;
   fechaFin: string;
@@ -98,7 +86,7 @@ export class DtoEvento {
   id: string;
   nombre: string;
   descripcion: string;
-  foto: any;
+  foto: Foto;
   ubicacionExacta: string;
   fechaInicio: string;
   fechaFin: string;
@@ -117,5 +105,20 @@ export class DtoEvento {
         subEventoId: string;
       }
     ];
+  };
+}
+
+export class Foto {
+  url: string;
+  lugar: string;
+  titulo: string;
+  proveedorId: string;
+}
+
+export class Proveedor {
+  id?: string;
+  nombre?: string;
+  redesSociales?: {
+    listRedes: { link: string; nombre: string }[];
   };
 }

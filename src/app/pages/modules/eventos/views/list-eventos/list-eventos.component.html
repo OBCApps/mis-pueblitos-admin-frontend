@@ -168,9 +168,6 @@
             <div class="flex items-center">Lugar Nombre</div>
           </th>
           <th scope="col" class="px-6 py-3">
-            <div class="flex items-center">Foto</div>
-          </th>
-          <th scope="col" class="px-6 py-3">
             <span class="sr-only">Acción</span>
           </th>
         </tr>
@@ -180,7 +177,7 @@
           <tr class="bg-white border-b">
             <th
               scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-pre-wrap"
             >
               {{ item.nombre }}
             </th>
@@ -199,13 +196,6 @@
             </td>
             <td class="px-6 py-4">
               {{ item.lugar.nombre }}
-            </td>
-            <td class="px-6 py-4">
-              <img
-                class="rounded-sm w-36 h-full"
-                src="{{ item.foto.url }}"
-                alt="{{ item.nombre }}"
-              />
             </td>
 
             <td class="px-6 py-4 text-right">

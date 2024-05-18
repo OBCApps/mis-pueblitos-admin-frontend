@@ -24,6 +24,7 @@ export class SelectorFotoNegocioComponent {
   show: any;
   file: File;
   valueInput: any;
+
   constructor(
     private modalService: SelectorFotoNegocioService,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -72,28 +73,36 @@ export class SelectorFotoNegocioComponent {
       this.Modal.show();
     }
   }
-  handleFileSelect(event) {
+  handleFileSelect(event: any) {
     this.file = event.target.files[0];
     console.log('file', this.file);
   }
   upload_file() {
     console.log('valueInput', this.valueInput.id);
-    this.modalService.uploadFoto(this.valueInput.id, this.file,this.valueInput.type).subscribe(
-      (response) => {
-        console.log('response', response);
-        this.responseModal.emit(response);
-        this.Modal.hide();
-      },
-      (error) => {
-        console.log('error', error.error.message);
-        if(error.error.message=="No se pueden subir más fotos"){
-          alert('Excedió el límite de fotos permitidas');
-        }else{
-          alert('Error al subir la foto');
+
+    this.modalService
+      .uploadFoto(
+        this.valueInput.id,
+        this.file,
+        this.valueInput.type,
+        this.valueInput.infoImage
+      )
+      .subscribe(
+        (response) => {
+          console.log('response', response);
+          this.responseModal.emit(response);
+          this.Modal.hide();
+        },
+        (error) => {
+          console.log('error', error.error.message);
+          if (error.error.message == 'No se pueden subir más fotos') {
+            alert('Excedió el límite de fotos permitidas');
+          } else {
+            alert('Error al subir la foto');
+          }
+          this.responseModal.emit(null);
+          this.Modal.hide();
         }
-        this.responseModal.emit(null);
-        this.Modal.hide();
-      }
-    );
+      );
   }
 }
