@@ -43,7 +43,14 @@ export class NavbarComponent {
       new SidebarItem('Listado de Agencias', 'path/to/icon7.svg', '/admin/agencias/list'),      
       new SidebarItem('Listado de Tours', 'path/to/icon9.svg', '/admin/tours/list'),    
     ]),
-    // Agrega más elementos según sea necesario
+    new SidebarItem('Departamentos', 'path/to/icon6.svg', null, false, [
+      new SidebarItem('Listado de Departamentos', 'path/to/icon7.svg', '/admin/departamentos/list'),
+    ]),
+    new SidebarItem('Eventos', 'path/to/icon6.svg', null, false, [
+      new SidebarItem('Listado de Eventos', 'path/to/icon7.svg', '/admin/eventos/list'),      
+      new SidebarItem('Listado de SubEventos', 'path/to/icon7.svg', '/admin/subeventos/list'),      
+    ]),
+    
   ];
   
 
